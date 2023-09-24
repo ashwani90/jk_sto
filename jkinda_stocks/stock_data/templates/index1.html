@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+    <label for="compant">Choose a company:</label>
+
+    <select name="company" id="company">
+    
+    </select>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+    <script>
+        $(document).ready(
+            function(){
+                $.ajax({url: "http://0.0.0.0:8000/show_data?code=500570", success: function(result){
+                    xValues = [];
+                    yValues = [];
+                    for (let i=0;i<result.data.length;i++) {
+                        xValues.push(result.data[i].date);
+                        yValues.push(result.data[i].close);
+                    }
+                    xValues = xValues.reverse();
+                    yValues = yValues.reverse();
+                    const myChart = new Chart("myChart", {
+                        type: "line",
+                        data: {
+                          labels: xValues,
+                          datasets: [{
+                            backgroundColor:"rgba(0,0,255,1.0)",
+                            borderColor: "rgba(0,0,255,0.1)",
+                            data: yValues
+                          }]
+                        },
+                        options:{
+                            legend: {display: false}}
+                      });
+                    
+                    
+                }});
+              }
+        );
+        $(document).ready(
+            function(){
+                $.ajax({url: "http://0.0.0.0:8000/company_dropdown", success: function(result){
+                    xValues = [];
+                    for (let i=0;i<result.data.length;i++) {
+                        xValues.push({name: result.data[i].name, code: result.data[i].code})
+                    }
+                    xValues = xValues.reverse();
+                    let htmlString = ''
+                    for (let i in xValues) {
+                        htmlString += `<option value="${xValues[i].code}">${xValues[i].name}</option>`
+                    }
+                    $('#company').html(htmlString);
+                    
+                }});
+              }
+        );
+        $("#company").change(() => {
+            let companyValue = $('#company option:selected').text();
+                $.ajax({url: "http://0.0.0.0:8000/show_data?code="+companyValue, success: function(result){
+                    xValues = [];
+                    yValues = [];
+                    for (let i=0;i<result.data.length;i++) {
+                        xValues.push(result.data[i].date);
+                        yValues.push(result.data[i].close);
+                    }
+                    xValues = xValues.reverse();
+                    yValues = yValues.reverse();
+                    const myChart = new Chart("myChart", {
+                        type: "line",
+                        data: {
+                          labels: xValues,
+                          datasets: [{
+                            backgroundColor:"rgba(0,0,255,1.0)",
+                            borderColor: "rgba(0,0,255,0.1)",
+                            data: yValues
+                          }]
+                        },
+                        options:{
+                            legend: {display: false}}
+                      });
+                    
+                    
+                }});
+        }
+            
+        )
+        
+        
+    </script>
+</body>
+</html>

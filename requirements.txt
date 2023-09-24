@@ -1,0 +1,4 @@
+Django
+psycopg
+django-cors-headers
+django-admin
