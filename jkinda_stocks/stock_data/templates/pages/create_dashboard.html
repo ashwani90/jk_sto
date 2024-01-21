@@ -2,49 +2,22 @@
 {% block content %}
 
             <div class='container-fluid dashboard-form-container'>
-                <form class="user">
+                <form class="user" id="dashboard_form" method="post" action="{% url 'create_dashboard' %}">
+                    {% csrf_token %}
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input type="text" class="form-control form-control-user" id="dash_name"
+                            <input type="text" class="form-control form-control-user" id="dash_name" name="dash_name"
                                 placeholder="Dashboard Name">
                         </div>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control form-control-user" id="title"
+                            <input type="text" class="form-control form-control-user" id="title" name="title"
                                 placeholder="Title">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="desc">Description</label>
-                        <textarea class="form-control form-control-user" id="desc"></textarea>
+                        <textarea class="form-control form-control-user" id="desc" name="desc"></textarea>
                     </div>
-                    <div class="dashboard-add-item">
-                    <span class="dashbaord-break-line"></span>
-                    <button></button>
-                    </div>
-                    {% comment %} <div class="form-group">
-                        <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                            placeholder="Company">
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input type="password" class="form-control form-control-user"
-                                id="exampleInputPassword" placeholder="Password">
-                        </div>
-                        <div class="col-sm-6">
-                            <input type="password" class="form-control form-control-user"
-                                id="exampleRepeatPassword" placeholder="Repeat Password">
-                        </div>
-                    </div>
-                    <a href="login.html" class="btn btn-primary btn-user btn-block">
-                        Register Account
-                    </a>
-                    <hr>
-                    <a href="index.html" class="btn btn-google btn-user btn-block">
-                        <i class="fab fa-google fa-fw"></i> Register with Google
-                    </a>
-                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                        <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                    </a> {% endcomment %}
+                    <input type="submit" class="btn btn-primary btn-user btn-block" value="Create Dashboard">
                 </form>
-            </div>
     {% endblock %}

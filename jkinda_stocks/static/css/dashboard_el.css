@@ -1,0 +1,29 @@
+.dashboard-form-container {
+    max-width: 600px;
+}
+
+.dashboard-add-item {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.dashbaord-break-line {
+    height: 2px;
+    background-color: grey;
+    width: 80%;
+}
+
+.dashboard-add-item button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: brown;
+    border: none;
+    color: white;
+    font-size: 20px;
+}
+
+.chart-form {
+    margin: 60px 20px;
+}

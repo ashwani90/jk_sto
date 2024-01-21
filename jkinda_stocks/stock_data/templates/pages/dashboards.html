@@ -1,0 +1,99 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank"
+            href="https://datatables.net">official DataTables documentation</a>.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All Dashboards</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Add Chart</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for i in dashboard_list %}
+                        <tr>
+                            <td>{{i.name}}</td>
+                            <td>{{i.title}}</td>
+                            <td>{{i.description}}</td>
+                            <td><button class="add_chart_btn" data-toggle="modal" data-target="#exampleModal" data-dashboard-id="{{i.id}}">Add Chart</button></td>
+                            <td><a class="btn btn-primary" href="{% url 'chart_preview' i.id %}">Preview</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          Add Chart
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4">
+                <form id="chart-form">
+                    <div class="form-group row chart-form">
+                                        <div class="col-sm-12 mb-3">
+                                            <input type="text" class="form-control form-control-user chart-form-id" name="chart_name" id="chart_name"
+                                                placeholder="Chart Name">
+                                        </div>
+                                        <div class="col-sm-12 mb-3">
+                                            <input type="text" class="form-control form-control-user chart-form-id" name="chart_title" id="chart_title"
+                                                placeholder="Chart">
+                                        </div>
+                                        <select class="form-select form-control  form-control-user mb-3 chart-form-id" aria-label="Default select example" name="chart_type" id="chart_type">
+                                            <option class="form-control" value="1">Line</option>
+                                            <option class="form-control" value="2">Area</option>
+                                            <option class="form-control" value="3">Point</option>
+                                          </select>
+                                          <input class="dropdown-header" placeholder="Search" id="company_search3"/>
+                                          <select class="form-select form-control  form-control-user mb-3 chart-form-id" aria-label="Select Company" name="chart_company" id="chart_company">
+                                            
+                                          </select>
+                                          <select class="form-select form-control  form-control-user mb-3 chart-form-id" aria-label="Select Date Range" name="chart_range" id="chart_range">
+                                            <option class="form-control" value="1">1 week</option>
+                                            <option class="form-control" value="2">1 month</option>
+                                            <option class="form-control" value="3">6 months</option>
+                                            <option class="form-control" value="3">1 year</option>
+                                            <option class="form-control" value="3">5 years</option>
+                                          </select>
+                                          <input type="hidden" id="dashboard_id" />
+                                    </div>
+                                    </form>
+            </div>
+            <div class="col-md-8" id="custom_chart_container">
+                <canvas id="custom_chart"> </canvas>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          
+          <button type="button" class="btn btn-primary" id="save_chart">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    {% endblock %}

@@ -193,4 +193,24 @@ $("#company_select2").change(() => {
 )
 
 
- 
+$(".chart-form-id").change(function() {
+  console.log("Hello");
+  chart = false;
+  let chartType = $('#chart_type').val();
+  let chartCompany = $('#chart_company').val();
+  let chartRange = $('#chart_range').val();
+   if (chartType && chartCompany && chartRange) {
+    $("#custom_chart_container").html()
+    $("#custom_chart_container").html('<canvas id="custom_chart"></canvas>')
+    chart = chartFunction("custom_chart",chartCompany,chart);
+   }
+});
+
+$(document).ready(() => {
+  companyGet("chart_company");
+});
+
+$("#company_search3").keyup(() => {
+  let searchValue = $('#company_search3').val();
+  companyGet("chart_company",searchValue);
+});

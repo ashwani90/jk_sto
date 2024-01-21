@@ -1,0 +1,118 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+
+  {% for i in charts %}
+  <div class="card-body">
+    <div class="chart-area">
+      {{i.data.data}}
+        <canvas id="myAdminCompanyChart{{i.id}}"></canvas>
+    </div>
+</div>
+
+  {% endfor %}
+  </div>
+    {% endblock %}
+
+    {% block custom_js %}
+    {% for i in charts %}
+    <script data-chartdata="{{ i.data }}" data-chartid="{{i.id}}">
+      data = document.currentScript.dataset;
+      chartdata = data.chartdata;
+      chartid = data.chartid;
+      console.log(chartdata)
+      chartdata = chartdata.replace("'", "\"");
+      console.log(chartdata)
+      chartdata = JSON.parse(chartdata);
+      console.log(chartdata)
+      xValues = []
+      yValues = []
+      for (let i=0;i<chartdata.length;i++) {
+        console.log(chartdata[i]);
+        xValues.push(chartdata[i].date);
+        yValues.push(chartdata[i].close);
+        
+      }
+      console.log(xValues);
+      console.log(yValues);
+      aChart = new Chart("myAdminCompanyChart"+chartid, {
+        type: "line",
+        data: {
+          labels: xValues,
+          datasets: [{
+            backgroundColor:"transparent",
+            borderColor: "rgba(0,0,0,1)",
+            data: yValues
+          }]
+        },
+        options:{
+            maintainAspectRatio: false,
+            layout: {
+              padding: {
+                left: 10,
+                right: 25,
+                top: 25,
+                bottom: 0
+              }
+            },
+            scales: {
+              xAxes: [{
+                time: {
+                  unit: 'date'
+                },
+                gridLines: {
+                  display: false,
+                  drawBorder: false
+                },
+                ticks: {
+                  maxTicksLimit: 7
+                }
+              }],
+              yAxes: [{
+                ticks: {
+                  maxTicksLimit: 5,
+                  padding: 10,
+                  // Include a dollar sign in the ticks
+                  callback: function(value, index, values) {
+                    return number_format(value);
+                  }
+                },
+                gridLines: {
+                  color: "rgb(234, 236, 244)",
+                  zeroLineColor: "rgb(234, 236, 244)",
+                  drawBorder: false,
+                  borderDash: [2],
+                  zeroLineBorderDash: [2]
+                }
+              }],
+            },
+            legend: {
+              display: false
+            },
+            tooltips: {
+              backgroundColor: "rgb(255,255,255)",
+              bodyFontColor: "#858796",
+              titleMarginBottom: 10,
+              titleFontColor: '#6e707e',
+              titleFontSize: 14,
+              borderColor: '#dddfeb',
+              borderWidth: 1,
+              xPadding: 15,
+              yPadding: 15,
+              displayColors: false,
+              intersect: false,
+              mode: 'index',
+              caretPadding: 10,
+              callbacks: {
+                label: function(tooltipItem, chart) {
+                  var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                  return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                }
+              }
+            }
+          }
+      });
+    </script>
+    {% endfor %}
+    {% endblock %}

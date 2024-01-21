@@ -66,3 +66,17 @@ class NSEFOStockData(models.Model):
     date_show = models.DateField()
     company_id = models.ForeignKey(Company, on_delete=models.DO_NOTHING)
     
+class Dashboard(models.Model):
+    name = models.CharField()
+    description = models.TextField()
+    title = models.CharField()
+    
+class Chart(models.Model):
+    name = models.CharField()
+    title = models.CharField()
+    type = models.CharField(default="Line")
+    content = models.JSONField()
+    size = models.IntegerField(null=True)
+    order = models.IntegerField()
+    dashboard_id = models.ForeignKey(Dashboard, on_delete=models.DO_NOTHING)
+    data = models.JSONField(null=True)

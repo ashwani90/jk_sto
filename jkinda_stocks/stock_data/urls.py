@@ -15,5 +15,7 @@ urlpatterns = [
     path("company_dropdown", views2.company_dropdown, name="company_dropdown"),
     path("update_company", views2.update_company, name="update_company"),
     path("", views2.index, name="home"),
-    
+    path("get_dashboards", dashboard.get_dashboards, name="get_dashboards"),
+    path("create_chart", dashboard.create_chart, name="create_chart"),
+    path("chart_preview/<int:dashboard_id>/", dashboard.chart_preview, name="chart_preview"),
 ]
