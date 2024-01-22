@@ -16,7 +16,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -30,11 +30,13 @@ ALLOWED_HOSTS = ["*"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-
+ENABLE_USER_ACTIVATION = True
 # Application definition
 
 INSTALLED_APPS = [
     "stock_data.apps.StockDataConfig",
+    "account.apps.AccountConfig",
+    "portfolio.apps.PortfolioConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'corsheaders',
@@ -42,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +64,7 @@ ROOT_URLCONF = 'jkinda_stocks.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(PROJECT_PATH, '../templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,6 +79,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'jkinda_stocks.wsgi.application'
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

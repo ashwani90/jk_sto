@@ -2,3 +2,5 @@ Django
 psycopg
 django-cors-headers
 django-admin
+django-bootstrap4
+django-widget-tweaks

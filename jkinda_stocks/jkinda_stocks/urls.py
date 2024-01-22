@@ -21,4 +21,5 @@ from stock_data.urls import urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('stock_data.urls')),
+    path('', include('account.urls')),
 ]
