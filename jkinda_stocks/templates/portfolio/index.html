@@ -1,0 +1,132 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+{% load bootstrap4 %}
+<div class="container-fluid">
+    
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Portfolio Page</h1>
+        <a href="{% url 'portfolio_create' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Create new</a>
+    </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="p-5">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div
+                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Company<span id="company_name"></span></h6>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                aria-labelledby="dropdownMenuLink">
+                                <div class="dropdown-header">
+                                    <input class="dropdown-header" placeholder="Search" id="company_search"/>
+                                </div>
+                                <select name="company" id="company_select" class="dropdown-item">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area" id="myAdminCompanyChartContainer">
+                            <canvas id="myAdminCompanyChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card pt-5 p-2">
+                    <table id="stock-table" class="display table table-striped" style="width:100%">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Company</th>
+                                <th>Invested</th>
+                                <th>Current</th>
+                                <th>Shares</th>
+                                <th>Bought Price</th>
+                                <th>Date Bought</th>
+                                <th>Release On</th>
+                            </tr>
+                        </thead>
+                        <tbody id="portfolio_stocks_table">
+                            
+                            
+                        </tbody>
+                    </table>
+                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-download fa-sm text-white-50"></i> Add Stock</button>
+                    <div>
+                        <form class="d-flex">
+                            <div class="form-group mx-sm-3 m-2">
+                                <label for="company" class="sr-only">Company</label>
+                                <input type="text" class="form-control" id="company_add_stock" placeholder="Company">
+                              </div>
+                              <div class="form-group mx-sm-3 m-2">
+                                <label for="invested" class="sr-only">Invested</label>
+                                <input type="text" class="form-control" id="invested_add_stock" placeholder="Invested">
+                              </div>
+                              <div class="form-group mx-sm-3 m-2">
+                                <label for="shares" class="sr-only">Shares</label>
+                                <input type="text" class="form-control" id="shares_add_stock" placeholder="Shares">
+                              </div>
+                              <div class="form-group mx-sm-3 m-2">
+                                <label for="bought_at" class="sr-only">Date Bought</label>
+                                <input type="text" class="form-control" id="date_bought_add_stock" placeholder="Date Bought" data-provide="datepicker">
+                              </div>
+                              <button class="d-none d-sm-inline-block btn btn-sm btn-warning shadow-sm m-2" id="add-stock"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Add</button>
+                        </form>
+                    </div>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-lg-5 ">
+            <div class="p-2">
+                <ul class="list-group" >
+                    {% for portfolio in portfolios %}
+                    {% if portfolio.active %}
+                    <li class="list-group-item portfolio-item-active portfolio_list_item" data-id={{portfolio.id}}>
+                    {% else %}
+                    <li class="list-group-item portfolio_list_item" data-id={{portfolio.id}}>
+                    {% endif %}
+                        <div >
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-column">
+                                    <h6 class="head pt-1">{{portfolio.name}}</h6>
+                                    <span class="pt-1 text-info">{{portfolio.type}}</span>
+                                </div>
+                                <div class="d-flex flex-column pt-2">
+                                    <div class="d-flex ">
+                                        <h5 class="pr-2 ">{{portfolio.returns}}</h5>
+                                        <span class="px-2 text-success">({{portfolio.returns}})</span>
+                                    </div>
+                                    <span class="pr-2">{{portfolio.invested}}</span>
+                        
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    
+                  </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    {% endblock %}
+
+     {% block custom_js %}
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'js/portfolio.js' %}"></script>
+    {% endblock %} 

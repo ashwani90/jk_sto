@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-e1t#epgq+jcz%68*b1k$geu7il1zlf_!a!i270@^asb)5y#^y*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'bootstrap4',
+    'active_link',
 ]
 
 MIDDLEWARE = [

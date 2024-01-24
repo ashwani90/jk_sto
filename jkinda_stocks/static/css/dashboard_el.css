@@ -27,3 +27,11 @@
 .chart-form {
     margin: 60px 20px;
 }
+
+.list-group > .list-group-item {
+    cursor: pointer;
+}
+
+.list-group > .list-group-item.portfolio-item-active {
+    background-color: lightgreen;
+}

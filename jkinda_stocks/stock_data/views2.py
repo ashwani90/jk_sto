@@ -9,6 +9,7 @@ import json
 from django.http import HttpResponse
 from django.template import loader
 from django.db import connection
+from django.core import serializers
 
 # Create your views here.
 
@@ -34,6 +35,14 @@ def index(request):
 def company(request):
     template = loader.get_template('pages/company.html')
     return HttpResponse(template.render())
+
+def get_companies(request, search):
+    companies = Company.objects.filter(name__icontains=search)[:10]
+    data = []
+    for i in companies:
+        data.append({"name": i.name, "id": i.id})
+    
+    return JsonResponse({"companies": data, "success": True})
 
 def show_data(request):
     code = request.GET.getlist("code")[0]

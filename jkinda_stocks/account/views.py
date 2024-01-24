@@ -17,10 +17,7 @@ from django.contrib.auth import login, authenticate
 
 def signup(request):
     if request.method == 'POST':
-        print("Coming inside this")
         form = SignUpForm(request.POST)
-        print(form.is_valid())
-        print(form.errors)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -35,7 +32,6 @@ def signup(request):
 def loginMethod(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        print(form.errors)
         if form.is_valid():
             email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password')

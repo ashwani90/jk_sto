@@ -1,0 +1,48 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load bootstrap4 %}
+<div class="container-fluid">
+    
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Company</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Operate</a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="p-5">
+                <div class="text-center">
+                    {% if message %}
+                    <h6 class="h4 text-gray-900 mb-4">{{message}}</h6>
+                    {% endif %}
+                </div>
+                <form class="user" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% comment %} {% for field in form %}
+                        <div class="form-group">
+                            {{ field|add_class:'form-control'}}
+                            {{ field.label_tag }}
+                                
+                                <div class="col-sm-10">
+                                    
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                </div>
+                            
+                        </div>
+                    {% endfor %} {% endcomment %}
+                
+                        <button type="submit" class="btn btn-primary">{{ 'Create Portfolio' }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+    {% endblock %}
