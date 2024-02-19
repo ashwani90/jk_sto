@@ -45,8 +45,8 @@ $( "#company_add_stock" ).autocomplete({
     source: function (request,response) {
         let term = request.term;
         let data_url = window.main_url+"get_companies/"+term;
-        
-        $.get({url: data_url,data: data, success: (result) => {
+        console.log(data_url);
+        $.get({url: data_url, success: (result) => {
             
             if (result.success) {
                 let data = result.companies;

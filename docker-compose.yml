@@ -14,7 +14,7 @@ services:
   #     NAME: "rabbitmq1"
   web:
     build: .
-    command: python jkinda_stocks/manage.py runserver 0.0.0.0:8000
+    # command: python jkinda_stocks/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:

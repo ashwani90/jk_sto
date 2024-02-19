@@ -35,7 +35,8 @@ def loginMethod(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password')
-            user = authenticate(email=email, password=raw_password)
+            # Todo:: Please do this with the username instead of mail
+            user = authenticate(username="ashwani", password=raw_password)
             login(request, user)
             return redirect('home')
     else:

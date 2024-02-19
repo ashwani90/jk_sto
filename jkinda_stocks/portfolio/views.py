@@ -53,7 +53,6 @@ def get_portfolios(request):
             active = True
         else:
             active = False
-        print(i.id)
         data.append({
             "name": i.name,
             "type": types_dict[i.type],
@@ -86,7 +85,6 @@ def get_stocks(request):
 @csrf_exempt
 def add_stock(request):
     if request.method == "POST":
-        print(request.POST.get("portfolio_id"))
         portfolio_id = request.POST.get("portfolio_id")
         company_id = request.POST.get("company_id")
         invested = request.POST.get("invested")

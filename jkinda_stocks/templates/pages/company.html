@@ -1,6 +1,7 @@
 {% extends 'layout/base.html' %}
               
 {% block content %}
+{% load static %}
 
               <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -27,6 +28,7 @@
                                         <span id="company_name"></span>
                                     </h6>
                                     <div class="dropdown">
+                                        <span id="company_name_show"></span>
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -34,18 +36,16 @@
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
                                             <div class="dropdown-header">
-                                                <input class="dropdown-header" placeholder="Search" id="company_search"/>
+                                                <input type="text" class="form-control" id="company_select" placeholder="Company">
                                             </div>
-                                            <select name="company" id="company_select" class="dropdown-item">
-    
-                                            </select>
+                                   
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area" id="myAdminCompanyChartContainer">
-                                        <canvas id="myAdminCompanyChart"></canvas>
+                                    <div class="chart-area">
+                                        <canvas id="selectedCompanyChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -204,3 +204,8 @@
         </div>
     </div>
     {% endblock %}
+
+    {% block custom_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src="{% static 'js/company.js' %}"></script>
+   {% endblock %} 

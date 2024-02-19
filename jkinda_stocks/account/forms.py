@@ -28,6 +28,7 @@ class SignUpForm(UserCreationForm):
         return email
         
 class LoginForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = User
         fields = ['email', 'password']
@@ -36,9 +37,7 @@ class LoginForm(forms.ModelForm):
         email = self.cleaned_data['email']
         password = self.cleaned_data['password']
         user = User.objects.get(email=email)
-        print(user)
         user = authenticate(username=user.username, password=password)
-        print(user)
         if user is None:
             raise forms.ValidationError('Invalid email or password.')
         return self.cleaned_data

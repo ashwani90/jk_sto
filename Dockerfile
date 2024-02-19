@@ -6,3 +6,6 @@ COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 RUN pip install psycopg2==2.8.6
 COPY . /code/
+
+ENTRYPOINT [ "tail" ]
+CMD ["-f", "/dev/null"]

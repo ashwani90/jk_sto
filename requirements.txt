@@ -4,3 +4,9 @@ django-cors-headers
 django-admin
 django-bootstrap4
 django-widget-tweaks
+django-active-link
+requests
+beautifulsoup4
+nsepython
+xmltodict
+arrow

@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "stock_data.apps.StockDataConfig",
     "account.apps.AccountConfig",
     "portfolio.apps.PortfolioConfig",
+    "financials.apps.FinancialsConfig",
+    "newsdata.apps.NewsdataConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'corsheaders',

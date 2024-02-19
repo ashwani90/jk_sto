@@ -40,7 +40,7 @@ def get_companies(request, search):
     companies = Company.objects.filter(name__icontains=search)[:10]
     data = []
     for i in companies:
-        data.append({"name": i.name, "id": i.id})
+        data.append({"name": i.name, "id": i.code})
     
     return JsonResponse({"companies": data, "success": True})
 
