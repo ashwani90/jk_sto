@@ -111,7 +111,7 @@ const chartFunction = function(chart_container, companyValue=false,aChart=false)
                       callbacks: {
                         label: function(tooltipItem, chart) {
                           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                          return datasetLabel + ': ' + number_format(tooltipItem.yLabel);
                         }
                       }
                     }

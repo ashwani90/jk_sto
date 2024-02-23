@@ -16,13 +16,27 @@ $( "#company_select" ).autocomplete({
         }})
     },
     change: function( event, ui ) {
-        $("#company_name_show").html(event.target.value);
+        // $("#company_name_show").html(event.target.value);
         code = event.target.value.split(" ")[0];
         if (code) {
+            myChart.destroy();
             myChart = chartFunction("selectedCompanyChart",code,false);
         }
         
-    }
+    },
+    _renderItem: function( select, item ) {
+        return $( "<option>" )
+          .attr( "data-value", item.value )
+          .append( item.label )
+          .appendTo("#appendToElement");
+      },
+    _renderMenu: function( ul, items ) {
+        var that = this;
+        $.each( items, function( index, item ) {
+          that._renderItemData( ul, item );
+        });
+        $( ul ).find( "li" ).odd().addClass( "odd" );
+      }
   });
 
   $(document).ready(() => {
