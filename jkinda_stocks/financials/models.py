@@ -23,6 +23,7 @@ class Financial(models.Model):
     date = models.DateField()
     # will decide if we can show the data
     status = models.BooleanField() 
+    type = models.IntegerField(default=0)
 
 class Events(models.Model):
     symbol = models.CharField()

@@ -32,7 +32,6 @@ class Command(BaseCommand):
         yesterday = today + timedelta(-1)
         yesterday = yesterday.strftime('%d-%m-%Y')
         today = formatted_date
-        
         json_data = nsefetch("https://www.nseindia.com/api/corporates-financial-results?index=equities&from_date="+yesterday+"&to_date="+today+"&period="+period_d)
         
         records_to_create = []

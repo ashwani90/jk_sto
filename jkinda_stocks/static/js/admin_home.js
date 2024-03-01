@@ -14,11 +14,20 @@ function removeData(chart) {
     chart.update();
 }
 
-const chartFunction = function(chart_container, companyValue=false,aChart=false){
-    let data_url = "http://0.0.0.0:8000/show_data?code=500570";
+const chartFunction = function(chart_container, companyValue=false,aChart=false, range=false){
+  // If range is false fetch 1 year data
+  // If range is 1 then fetch for week
+  // If range is 4 then fetch for month
+  // If range is 50 then fetch for year
+  // If range is 500 then fetch for 5 year
+  if (!range) {
+    range = 50;
+  }
+  let data_url = "http://0.0.0.0:8000/show_data?code=500570&range="+range;
     if (companyValue) {
-        data_url = "http://0.0.0.0:8000/show_data?code="+companyValue;
+        data_url = "http://0.0.0.0:8000/show_data?code="+companyValue+"&range="+range;
     }
+    let datasetData = [];
     $.ajax({url: data_url, success: function(result){
         xValues = [];
         yValues = [];
@@ -36,6 +45,11 @@ const chartFunction = function(chart_container, companyValue=false,aChart=false)
         }
         xValues = xValues.reverse();
         yValues = yValues.reverse();
+        datasetData.push({
+          backgroundColor:"transparent",
+          borderColor: "rgba(0,0,0,1)",
+          data: yValues
+        });
         if (aChart) {
             removeData(aChart);
             addData(aChart, xValues, yValues);
@@ -44,11 +58,7 @@ const chartFunction = function(chart_container, companyValue=false,aChart=false)
                 type: "line",
                 data: {
                   labels: xValues,
-                  datasets: [{
-                    backgroundColor:"transparent",
-                    borderColor: "rgba(0,0,0,1)",
-                    data: yValues
-                  }]
+                  datasets: datasetData
                 },
                 options:{
                     maintainAspectRatio: false,
@@ -176,19 +186,7 @@ $("#company_select").change(() => {
     let companyValue = $('#company_select option:selected').val();
     let companyName = $('#company_select option:selected').text();
     $("#company_name").html(companyName)
-    myChart = chartFunction("myAdminCompanyChart",companyValue,myChart);
-}
-)
-$("#company_select2").change(() => {
-    if (myChart2) {
-        myChart2.destroy();
-    }
-    $("#myAdminCompanyChart2Container").html()
-    $("#myAdminCompanyChart2Container").html('<canvas id="myAdminCompanyChart2"></canvas>')
-    let companyValue = $('#company_select2 option:selected').val();
-    let companyName = $('#company_select2 option:selected').text();
-    $("#company_name2").html(companyName)
-    myChart2 = chartFunction("myAdminCompanyChart2",companyValue,myChart2);
+    // myChart = chartFunction("myAdminCompanyChart",companyValue,myChart);
 }
 )
 

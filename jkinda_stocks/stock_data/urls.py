@@ -12,6 +12,7 @@ urlpatterns = [
     path("compare_view", views2.compare_view, name="compare_view"),
     path("company/", views2.company, name="company"),
     path("get_companies/<slug:search>", views2.get_companies, name="get_companies"),
+    path("get_financials/<slug:symbol>", views2.get_financials, name="get_financials"),
     path("create_dashboard/", dashboard.create_dashboard, name="create_dashboard"),
     path("company_dropdown", views2.company_dropdown, name="company_dropdown"),
     path("update_company", views2.update_company, name="update_company"),

@@ -9,6 +9,7 @@ import json
 from django.http import HttpResponse
 from django.template import loader
 from django.db import connection
+from financials.models import Financial
 
 # Create your views here.
 
@@ -32,8 +33,10 @@ def index(request):
     return HttpResponse(template.render())
 
 def company(request):
+    company_data = Financial.objects.filter(symbol="TATAMOTORS")[0]
+    print(company_data)
     template = loader.get_template('pages/company.html')
-    return HttpResponse(template.render())
+    return HttpResponse(template.render(), {company_data: company_data})
 
 def show_data(request):
     code = request.GET.getlist("code")[0]

@@ -9,8 +9,11 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Company</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Operate</a>
+                        <div class="w-80">
+                        <input type="text" class="form-control shadow-sm" id="company_select" placeholder="Company" />
+                    
+                                    </div>
+                        
                     </div>
 
 
@@ -26,11 +29,15 @@
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Company recent Chart
                                         <span id="company_name"></span>
-                                    </h6>
-                                    <input type="text" class="form-control" id="company_select" placeholder="Company" />
-                                        <select class="appendToElement" id="appendToElement">
 
-                                        </select>
+                                        
+                                    </h6>
+                                    <div class="d-inline">
+                                        <span class="border"><button class="btn" id="range_5_year">5 Y</button></span>
+                                        <span  class="border"><button class="btn" id="range_year">1 Y</button></span>
+                                        <span  class="border"><button class="btn" id="range_month">1 M</button></span>
+                                        <span  class="border"><button class="btn" id="range_week">1 W</button></span>
+                                    </div>
                                     
                                 </div>
                                 <!-- Card Body -->
@@ -50,10 +57,28 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <span>Name: Tata Motors</span>
-                                        <span>Overview: Some thing </span>
-                                        <span>EBITA: 1</span>
-                                        <span>Equity: 1</span>
+                                        <table class="table">
+                                            <tr>
+                                                <td><b>Company Name:</b> {{company_name}}</td>
+                                                <td><b>Symbol:</b> {{symbol}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Total Revenue:</b> {{total_revenue}}</td>
+                                                <td><b>Profit:</b> {{profit}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Equity Share:</b> {{equity_share}}</td>
+                                                <td><b>Equity Per Share:</b> {{e_per_share}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Debt Equity Ratio:</b> {{debt_equity}}</td>
+                                                <td><b>Face Value:</b> {{face_value}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Sector:</b> {{sector}}</td>
+                                                
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -65,27 +90,8 @@
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Content Column -->
-                        <div class="col-lg-4 col-md-4 mb-4">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    {% comment %} Would also need sector info and storing sector info data {% endcomment %}
-                                    <h6 class="m-0 font-weight-bold text-primary">Sector info</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <span>Name: Tata Motors</span>
-                                        <span>Overview: Some thing </span>
-                                        <span>EBITA: 1</span>
-                                        <span>Equity: 1</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-lg-8 col-md-8 mb-4">
+                    
+                        <div class="col-lg-12 col-md-12 mb-4">
 
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
@@ -95,57 +101,79 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <span>Name: Tata Motors</span>
-                                        <span>Overview: Some thing </span>
-                                        <span>EBITA: 1</span>
-                                        <span>Equity: 1</span>
+                                        <table class="table">
+                                            <tr>
+                                                <td><b>Revenue:</b> <span id="financials_revenue"></span></td>
+                                                <td><b>Material Consumed:</b> <span id="financials_material_consumed"></span></td>
+                                                <td><b>Change Inventories:</b> <span id="financials_change_inventories"></span></td>
+                                                <td><b>Profit:</b> <span id="financials_profit"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Other Income:</b> <span id="financials_other_income"></span></td>
+                                                <td><b>Basic EPS::</b> <span id="financials_basic_eps"></span></td>
+                                                <td><b>Employee Benefit:</b> <span id="financials_employee_benefit"></span></td>
+                                                <td><b>Exceptional Items:</b> <span id="financials_exceptional_items"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Total Income:</b> <span id="financials_total_revenue"></span></td>
+                                                <td><b>Associate Share:</b> <span id="financials_associate_share"></span></td>
+                                                <td><b>Finance Costs:</b> <span id="financials_finance_costs"></span></td>
+                                                <td><b>Profit Before Tax:</b> <span id="financials_profit_before_tax"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Material Consumer Complete:</b> <span id="financials_material_consumed2"></span></td>
+                                                <td><b>Face Value:</b> <span id="financials_face_value"></span></td>
+                                                <td><b>Depreciation Amortization Expenses:</b> <span id="financials_depre_amor_expenses"></span></td>
+                                                <td><b>Current Tax</b> <span id="financials_current_tax"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Paid Up Equity Share:</b> <span id="financials_paid_up_equity_share"></span></td>
+                                                <td><b>Total Tax Expense:</b> <span id="financials_total_tax_expense"></span></td>
+                                                <td><b>Other Expense:</b> <span id="financials_other_expenses"></span></td>
+                                                <td><b>Deffered Tax:</b> <span id="financials_defferred_tax"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Profit Period:</b> <span id="financials_profit_period"></span></td>
+                                                <td><b>Interest Cov.:</b> <span id="financials_interest_service_coverage"></span></td>
+                                                <td><b>Total Comprehensive Income:</b> <span id="financials_total_compr_income"></span></td>
+                                                <td><b>Total Profit Non-Controlling:</b> <span id="financials_total_profit_non_controlling"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Diluted EPS:</b> <span id="financials_diluted_eps"></span></td>
+                                                <td><b>Consolidated Profit:</b> <span id="financials_consolidated_profit"></span></td>
+                                                <td><b>Comprehensive Income:</b> <span id="financials_comprehensive_income"></span></td>
+                                                <td><b>Profit Attributes:</b> <span id="financials_profit_attributes"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Comprehensive Income Parent:</b> <span id="financials_comprehensive_income_parent"></span></td>
+                                                <td><b>Total Comprehensive Interests:</b> <span id="financials_total_compr_non_contr_interests"></span></td>
+                                                
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
+
                         <div class="col-lg-12 col-md-12 mb-4">
 
-                            <div class="accordion" id="accordionSection">
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCompayNews" aria-expanded="true" aria-controls="collapseCompayNews">
-                                      Company News
-                                    </button>
-                                  </h2>
-                                  <div id="collapseCompayNews" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionSection">
-                                    <div class="accordion-body">
-                                      <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                  </div>
+                            <!-- Project Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    {% comment %} Would also need sector info and storing sector info data {% endcomment %}
+                                    <h6 class="m-0 font-weight-bold text-primary">Company News</h6>
                                 </div>
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSectorNews" aria-expanded="false" aria-controls="collapseSectorNews">
-                                      Sector news
-                                    </button>
-                                  </h2>
-                                  <div id="collapseSectorNews" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionSection">
-                                    <div class="accordion-body">
-                                      <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                <div class="card-body">
+                                    <div class="text-center">
+                                       
                                     </div>
-                                  </div>
                                 </div>
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMoreStocks" aria-expanded="false" aria-controls="collapseMoreStocks">
-                                      More Stocks Like this
-                                    </button>
-                                  </h2>
-                                  <div id="collapseMoreStocks" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionSection">
-                                    <div class="accordion-body">
-                                      <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                            </div>
 
                         </div>
+
+                        
                     </div>
 
                 </div>

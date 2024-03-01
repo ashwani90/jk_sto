@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from financials.models import Events
+from financials.models import Events, FinancialDocs, Financial
 
 import urllib.request as urllib2
 import json
@@ -19,7 +19,7 @@ import urllib.parse
 import xmltodict
 
 class Command(BaseCommand):
-    help = "Get Company Events"
+    help = "Get company financials using financial docs"
     
     def add_arguments(self, parser):
         pass
@@ -33,20 +33,25 @@ class Command(BaseCommand):
         yesterday = today + timedelta(-1)
         yesterday = yesterday.strftime('%d-%m-%Y')
         today = formatted_date
-        symbol = "TATAMOTORS"
-        URL = nsefetch("https://www.nseindia.com/api/event-calendar?index=equities&from_date="+yesterday+"&to_date="+today)
+        financial_docs = FinancialDocs.objects.filter(date=date.today(), status=False)
         records_to_create = []
-        for i in URL:
-            symbol = i.get('symbol')
-            company = i.get('company')
-            purpose = i.get('purpose')
-            details = i.get('bm_desc')
-            date_ = i.get('date')
-            date_format = '%d-%b-%Y'
-            date_obj = datetime.datetime.strptime(date_, date_format).date()
-            records_to_create.append(Events(company=company, symbol=symbol, purpose=purpose, date=date_obj, details=details))
+        
+        for i in financial_docs:
+            data = i.data
+            if data.get("audited") != "Audited":
+                FinancialDocs.objects.filter(id = i.id).update(status = True)
+                continue
+            params = data.get("params")
+            seq_id = data.get("seqNumber")
+            oldNewFlag = data.get("oldNewFlag")
+            ind = data.get("reInd")
+            format_ = data.get("format")
             
-        Events.objects.bulk_create(records_to_create)
+            URL = nsefetch("https://www.nseindia.com/api/corporates-financial-results-data?index=equities&params="+params+"&seq_id="+seq_id+"&industry=-&frOldNewFlag="+oldNewFlag+"&ind="+ind+"&format="+format_)
+            records_to_create.append(Financial(symbol=i.symbol, data=URL, date=date.today(), status=False, type=1))
+            FinancialDocs.objects.filter(id = i.id).update(status = True)
+        
+        Financial.objects.bulk_create(records_to_create)
 
         self.stdout.write(
             self.style.SUCCESS("Successfully Save the data ")
