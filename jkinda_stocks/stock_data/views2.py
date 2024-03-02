@@ -75,6 +75,40 @@ def get_companies(request, search):
     
     return JsonResponse({"companies": data, "success": True})
 
+def get_short_financials(request, symbol):
+    if symbol != "SANOFI":
+        symbol = "SANOFI"
+    company_data = Financial.objects.filter(symbol="SANOFI", type=1).order_by('-id')
+    if company_data:
+        company_data = company_data[0]
+    else:
+        data = {}
+        return JsonResponse({"companies": data, "success": False})
+    symbol = "SANOFI"
+    data = company_data.data
+    
+    company_name = data.get("longname")
+    data = data.get("resultsData2")
+    total_revenue = data.get("re_total_inc")
+    profit = data.get("re_pro_loss_bef_tax")
+    face_value = data.get("re_face_val")
+    equity_share = data.get("re_pdup")
+    e_per_share = data.get("re_basic_eps")
+    debt_equity = data.get("re_debt_eqt_rat")
+    data = {
+        "company_name": company_name,
+        "total_revenue": total_revenue,
+        "profit": profit,
+        "face_value": face_value,
+        "equity_share": equity_share,
+        "e_per_share": e_per_share,
+        "debt_equity": debt_equity,
+        "symbol": symbol,
+        "sector": "IT"
+    }
+    return JsonResponse({"companies": data, "success": True})
+    
+
 def get_financials(request, symbol):
     # get request financials
     if symbol != "SANOFI":

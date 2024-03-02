@@ -42,7 +42,7 @@
                             </div>
                         </div>
 
-                        
+                    </div> 
 
                     <!-- Content Row -->
                     <div class="row">
@@ -54,16 +54,35 @@
 
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 d-flex justify-content-between">
                                     {% comment %} Would also need sector info and storing sector info data {% endcomment %}
                                     <h6 class="m-0 font-weight-bold text-primary">Financials</h6>
+                                    <input type="text" class="form-control shadow-sm" style="width:180px;" id="company_select_fin_1" placeholder="Company" />
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <span>Name: Tata Motors</span>
-                                        <span>Overview: Some thing </span>
-                                        <span>EBITA: 1</span>
-                                        <span>Equity: 1</span>
+                                        <table class="table">
+                                            <tr>
+                                                <td><b>Company Name:</b> <span id="financials_1_company_name"></span></td>
+                                                <td><b>Symbol:</b> <span id="financials_1_symbol"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Total Revenue:</b> <span id="financials_1_total_revenue"></span></td>
+                                                <td><b>Profit:</b> <span id="financials_1_profit"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Equity Share:</b> <span id="financials_1_equity_share"></span></td>
+                                                <td><b>Equity Per Share:</b> <span id="financials_1_e_per_share"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Debt Equity Ratio:</b> <span id="financials_1_debt_equity"></span></td>
+                                                <td><b>Face Value:</b> <span id="financials_1_face_value"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Sector:</b> <span id="financials_1_sector"></span></td>
+                                                
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -74,16 +93,35 @@
 
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                                <div class="card-header py-3 d-flex justify-content-between">
                                     {% comment %} Would also need sector info and storing sector info data {% endcomment %}
                                     <h6 class="m-0 font-weight-bold text-primary">Financials</h6>
+                                    <input type="text" class="form-control shadow-sm" style="width:180px;" id="company_select_fin_2" placeholder="Company" />
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <span>Name: Tata Motors</span>
-                                        <span>Overview: Some thing </span>
-                                        <span>EBITA: 1</span>
-                                        <span>Equity: 1</span>
+                                        <table class="table">
+                                            <tr>
+                                                <td><b>Company Name:</b> <span id="financials_2_company_name"></span></td>
+                                                <td><b>Symbol:</b> <span id="financials_2_symbol"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Total Revenue:</b> <span id="financials_2_total_revenue"></span></td>
+                                                <td><b>Profit:</b> <span id="financials_2_profit"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Equity Share:</b> <span id="financials_2_equity_share"></span></td>
+                                                <td><b>Equity Per Share:</b> <span id="financials_2_e_per_share"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Debt Equity Ratio:</b> <span id="financials_2_debt_equity"></span></td>
+                                                <td><b>Face Value:</b> <span id="financials_2_face_value"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Sector:</b> <span id="financials_2_sector"></span></td>
+                                                
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -91,51 +129,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
-
-                        <!-- Content Column -->
-                       
-
-                        <div class="col-lg-6 col-md-6 mb-4">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    {% comment %} Would also need sector info and storing sector info data {% endcomment %}
-                                    <h6 class="m-0 font-weight-bold text-primary">Sector Financials</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <span>Name: Tata Motors</span>
-                                        <span>Overview: Some thing </span>
-                                        <span>EBITA: 1</span>
-                                        <span>Equity: 1</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 mb-4">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    {% comment %} Would also need sector info and storing sector info data {% endcomment %}
-                                    <h6 class="m-0 font-weight-bold text-primary">Sector Financials</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <span>Name: Tata Motors</span>
-                                        <span>Overview: Some thing </span>
-                                        <span>EBITA: 1</span>
-                                        <span>Equity: 1</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                    
 
                 </div>
                 <!-- /.container-fluid -->

@@ -213,6 +213,10 @@ $("#company_search3").keyup(() => {
   companyGet("chart_company",searchValue);
 });
 
+// $("#add_to_dash").click(() => {
+
+// });
+
 toastr.options = {
   "closeButton": false,
   "debug": false,

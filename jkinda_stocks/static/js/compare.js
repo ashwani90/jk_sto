@@ -276,6 +276,36 @@ $( "#add_company" ).click(() => {
     addListeners();
   });
 
- 
+  function changeFinancialFunction(event) {
+    // $("#company_name_show").html(event.target.value);
+    let symbol = event.target.value.split(" ")[0];
+    let id_num = 2;
+    if ($(this).attr('id') == "company_select_fin_1") {
+      id_num = 1;
+    }
+    
+    let data_url = window.main_url+"get_short_financials/"+symbol;
+    let ids = [
+      "company_name", "total_revenue", "profit", "face_value", "equity_share",
+        "e_per_share", "debt_equity", "symbol", "sector"
+    ];
+    $.get({url: data_url, success: (result) => {
+        
+      if (result.success) {
+          let data = result.companies;
+          for (let i=0;i<ids.length;i++) {
+            $("#financials_"+id_num+"_"+ids[i]).html(data[ids[i]]??"0");
+          }
+      } 
+  }})
+  }
 
-  
+  $( "#company_select_fin_1" ).autocomplete({
+    source: sourceFunction,
+    change: changeFinancialFunction
+  });
+
+  $( "#company_select_fin_2" ).autocomplete({
+    source: sourceFunction,
+    change: changeFinancialFunction
+  });

@@ -14,11 +14,9 @@ function getFinancials(symbol) {
     if (result.success) {
         let data = result.financials;
         for (let i=0;i<id_elements.length;i++) {
-          console.log(data[id_elements[i]]);
-          console.log("#"+id_elements[i]);
+         
           $("#financials_"+id_elements[i]).html(data[id_elements[i]]??"0");
         }
-        console.log(data);
     } 
 }})
 }
@@ -59,7 +57,6 @@ $( "#company_select" ).autocomplete({
     source: function (request,response) {
         let term = request.term;
         let data_url = window.main_url+"get_companies/"+term;
-        console.log(data_url);
         $.get({url: data_url, success: (result) => {
             
             if (result.success) {

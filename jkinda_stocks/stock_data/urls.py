@@ -1,6 +1,7 @@
 from django.urls import path
 
 from . import views2
+from . import apiViews
 from .views import dashboard
 
 urlpatterns = [
@@ -13,6 +14,7 @@ urlpatterns = [
     path("company/", views2.company, name="company"),
     path("get_companies/<slug:search>", views2.get_companies, name="get_companies"),
     path("get_financials/<slug:symbol>", views2.get_financials, name="get_financials"),
+    path("get_short_financials/<slug:symbol>", views2.get_short_financials, name="get_short_financials"),
     path("create_dashboard/", dashboard.create_dashboard, name="create_dashboard"),
     path("company_dropdown", views2.company_dropdown, name="company_dropdown"),
     path("update_company", views2.update_company, name="update_company"),
@@ -20,4 +22,5 @@ urlpatterns = [
     path("get_dashboards", dashboard.get_dashboards, name="get_dashboards"),
     path("create_chart", dashboard.create_chart, name="create_chart"),
     path("chart_preview/<int:dashboard_id>/", dashboard.chart_preview, name="chart_preview"),
+    path("api/get_dashboards/<slug:search>", apiViews.get_dashboards, name="get_dashboards"),
 ]

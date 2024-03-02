@@ -22,7 +22,7 @@
                             <th>Name</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Add Chart</th>
+                            {% comment %} <th>Add Chart</th> {% endcomment %}
                             <th>Preview</th>
                         </tr>
                     </thead>
@@ -33,7 +33,7 @@
                             <td>{{i.name}}</td>
                             <td>{{i.title}}</td>
                             <td>{{i.description}}</td>
-                            <td><button class="add_chart_btn" data-toggle="modal" data-target="#exampleModal" data-dashboard-id="{{i.id}}">Add Chart</button></td>
+                            {% comment %} <td><button class="add_chart_btn" data-toggle="modal" data-target="#exampleModal" data-dashboard-id="{{i.id}}">Add Chart</button></td> {% endcomment %}
                             <td><a class="btn btn-primary" href="{% url 'chart_preview' i.id %}">Preview</button></td>
                         </tr>
                         {% endfor %}
