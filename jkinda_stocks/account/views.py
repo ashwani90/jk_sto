@@ -14,6 +14,8 @@ from .forms import (
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 # from .models import Activation
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 def signup(request):
     if request.method == 'POST':
@@ -42,6 +44,23 @@ def loginMethod(request):
     else:
         form = LoginForm()
     return render(request, 'account/login.html', {'form': form})
+
+@login_required
+def get_users(request):
+    print(request.user.id)
+    users = User.objects.filter(is_active=True)
+    all_users = []
+    for user in users:
+        all_users.append(
+            {
+                "name": user.first_name+" "+user.last_name,
+                "email": user.email,
+                "id": user.id,
+                "enabled": user.is_active
+            }
+        )
+    data = { "users": all_users }
+    return render(request, 'pages/users.html', data)
 
 # class SignUpView(FormView):
 #     template_name = 'account/register.html'
@@ -92,3 +111,15 @@ class ProfileView(UpdateView):
     form_class = ProfileForm
     success_url = reverse_lazy('home')
     template_name = 'account/profile.html'
+
+@login_required
+def enable_user(request):
+    user_to_enable = request.GET.getlist("user_id")[0]
+    current_user = request.user.id 
+    # TODO:: check current user to be same organization as user and also role as admin
+    user = User.objects.filter(id=user_to_enable).update(is_active=True)
+    if user:
+        return JsonResponse({"success": True, "message": "User Updated"})
+    else:
+        return JsonResponse({"success": False, "message": "Unable to update User"})
+    

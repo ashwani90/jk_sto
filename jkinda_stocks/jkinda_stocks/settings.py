@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ["localhost", "0.0.0.0"]
 CORS_ORIGIN_ALLOW_ALL = True
 
 ENABLE_USER_ACTIVATION = True
+LOGIN_URL = "/login"
 # Application definition
 
 INSTALLED_APPS = [
@@ -143,3 +144,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.template.context_processors.debug",
+    "django.template.context_processors.request",
+    "django.contrib.auth.context_processors.auth",
+    "django.contrib.messages.context_processors.messages",
+)

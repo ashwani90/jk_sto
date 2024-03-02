@@ -13,13 +13,15 @@ from django.core import serializers
 from financials.models import Financial
 from newsdata.models import NewsData
 from .helpers import get_date_range_from_range
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required
 def compare_view(request):
-    template = loader.get_template('pages/compare_view.html')
-    return HttpResponse(template.render())
+    data = {}
+    return render(request, 'pages/compare_view.html', data)
 
+@login_required
 def update_company(request):
     unique_companies_id = []
     query = "select company_id_id, count(company_id_id) as company_count from stock_data_bsestockdata group by company_id_id order by company_count desc;"
@@ -31,10 +33,12 @@ def update_company(request):
     company_id_string = ','.join(str(v) for v in unique_companies_id)
     return JsonResponse({'data': company_id_string})
 
+@login_required
 def index(request):
-    template = loader.get_template('index.html')
-    return HttpResponse(template.render())
+    data = {}
+    return render(request, 'pages/index.html', data)
 
+@login_required
 def company(request):
     company_data = Financial.objects.filter(symbol="SANOFI", type=1).order_by('-id')
     if company_data:
@@ -64,9 +68,9 @@ def company(request):
         "symbol": symbol,
         "sector": "IT"
     }
-    print(company_data.data)
     return render(request, 'pages/company.html', data)
 
+@login_required
 def get_companies(request, search):
     companies = Company.objects.filter(name__icontains=search)[:10]
     data = []
@@ -75,6 +79,7 @@ def get_companies(request, search):
     
     return JsonResponse({"companies": data, "success": True})
 
+@login_required
 def get_short_financials(request, symbol):
     if symbol != "SANOFI":
         symbol = "SANOFI"
@@ -108,7 +113,7 @@ def get_short_financials(request, symbol):
     }
     return JsonResponse({"companies": data, "success": True})
     
-
+@login_required
 def get_financials(request, symbol):
     # get request financials
     if symbol != "SANOFI":
@@ -187,6 +192,7 @@ def get_financials(request, symbol):
     }
     return JsonResponse({"financials": data, "success": True})
     
+@login_required
 def get_news(request):
     company_id = 1
     news = NewsData.objects.filter(company_id=company_id)
@@ -194,7 +200,8 @@ def get_news(request):
     for i in news:
         newsList.append(i.data)
     return JsonResponse({news: newsList}, safe=False)
-    
+   
+@login_required 
 def show_data(request):
     code = request.GET.getlist("code")[0]
     codes = code.split(",")
@@ -252,7 +259,7 @@ def show_data(request):
         data = {"data": result}
         return JsonResponse(data, safe=False)
     
-
+@login_required
 def company_dropdown(request):
     try:
         name = request.GET.getlist("name")[0]

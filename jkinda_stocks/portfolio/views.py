@@ -41,6 +41,7 @@ def create_portfolio(request):
         form = PortfolioForm()
     return render(request, 'portfolio/create_portfolio.html', {'form': form})
 
+@login_required
 def get_portfolios(request):
     user_id = request.user.id
     
@@ -65,6 +66,7 @@ def get_portfolios(request):
     
     return render(request, 'portfolio/index.html', {'portfolios': data})
     
+@login_required
 def get_stocks(request):
     portfolio_id = request.GET.get("portfolio_id")
     stocks = PortfolioStock.objects.filter(portfolio_id=portfolio_id)
@@ -115,16 +117,25 @@ def add_stock(request):
             return JsonResponse({'success': False})
         
         
-
+@login_required
 def update_portfolio(request):
     # update the stock base on action
     pass
 
+@login_required
 def delete_portfolio(request):
     # mark a portfolio inactive
     # the tracking of the portfolio will stop
-    pass
+    # TODO check if user is authorized to delete the portfolio
+    user = request.user
+    portfolio_id = request.GET.get("portfolio_id")
+    status = Portfolio.objects.filter(id=portfolio_id).update(active=False)
+    if status:
+        return JsonResponse({'success': True, "message": "Deleted portfolio"})
+    else:
+        return JsonResponse({'success': False, "message": "Unable to delete portfolio"})
 
+@login_required
 def portfolio_graph(request):
     # can handle multiple portfolios
     # can accept date range
@@ -132,6 +143,7 @@ def portfolio_graph(request):
     # feature to check performance of portfolio if one/more stock is removed/added
     pass
 
+@login_required
 def list_famousPortfolios(request):
     # give a list of famous portfolios
     # once that is given clicking on one of that goes to dashboard view
