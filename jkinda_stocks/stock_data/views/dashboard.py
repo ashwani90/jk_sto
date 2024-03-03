@@ -13,10 +13,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def create_dashboard(request):
-    print(request)
     if request.method == "POST":
         dash_name = request.POST.get('dash_name')
-        print(dash_name)
         title = request.POST.get('title')
         desc = request.POST.get('desc')
         member = Dashboard(name=dash_name, title=title, description=desc)

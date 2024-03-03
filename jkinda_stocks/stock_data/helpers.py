@@ -12,5 +12,4 @@ def get_date_range_from_range(range):
         prev_date =  today - timedelta(days=(365*5))
     if range == int(50):
         prev_date =  today - timedelta(days=365)
-    print(prev_date)
     return [prev_date,today]

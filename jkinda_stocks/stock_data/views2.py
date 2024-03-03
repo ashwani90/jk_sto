@@ -286,16 +286,13 @@ def save_data(request):
     for i in dirs:
         file_list = os.listdir(file_paths+i)
         for j in file_list:
-            print(jiter)
             jiter = jiter + 1
             ab.append(file_paths+i+"/"+j)
             file_name = j.split('.')[0]
             if len(file_name) < 1:
                 continue
-            print(file_name)
             file_name = file_name.split("_")
             
-            print(file_name)
             file_type = file_name[1]
             date_date = file_name[0]
             
@@ -325,11 +322,9 @@ def save_data(request):
                                                         no_trades=lines[10], no_shrs=lines[11], net_turnov=lines[12],
                                                         td_clo_indi=lines[13], date_show=d, company_id=company)
                         except Exception as e:
-                            print("BSE")
+                            
                             print(e)
-                            print("End")
     return JsonResponse({"a":ab})
-    print(dirs)
 
 def save_data2(request):
     # read file
@@ -340,16 +335,13 @@ def save_data2(request):
     for i in dirs:
         file_list = os.listdir(file_paths+i)
         for j in file_list:
-            print(jiter)
             jiter = jiter + 1
             ab.append(file_paths+i+"/"+j)
             file_name = j.split('.')[0]
             if len(file_name) < 1:
                 continue
-            print(file_name)
             file_name = file_name.split("_")
             
-            print(file_name)
             file_type = file_name[1]
             date_date = file_name[0]
             
@@ -381,9 +373,8 @@ def save_data2(request):
                                                         no_trades=lines[7], no_shrs=lines[8], net_turnov=lines[9],
                                                         td_clo_indi=lines[11], date_show=d, company_id=company)
                         except Exception as e:
-                            print("NSE")
                             print(e)
-                            print("End")
+                            
                     continue
             if file_type == "MCX":
                 model_name = MCXStockData
@@ -392,7 +383,6 @@ def save_data2(request):
                 model_name = NSEFOStockData
                 continue
     return JsonResponse({"a":ab})
-    print(dirs)
 
 def save_data3(request):
     # read file
@@ -403,16 +393,13 @@ def save_data3(request):
     for i in dirs:
         file_list = os.listdir(file_paths+i)
         for j in file_list:
-            print(jiter)
             jiter = jiter + 1
             ab.append(file_paths+i+"/"+j)
             file_name = j.split('.')[0]
             if len(file_name) < 1:
                 continue
-            print(file_name)
             file_name = file_name.split("_")
             
-            print(file_name)
             file_type = file_name[1]
             date_date = file_name[0]
             
@@ -442,11 +429,8 @@ def save_data3(request):
                                                         no_trades=lines[10], no_shrs=lines[11], net_turnov=lines[12],
                                                         td_clo_indi=lines[13], date_show=d, company_id=company)
                         except Exception as e:
-                            print("BSE")
                             print(e)
-                            print("End")
     return JsonResponse({"a":ab})
-    print(dirs)
     
 def save_data4(request):
     # read file
@@ -457,16 +441,13 @@ def save_data4(request):
     for i in dirs:
         file_list = os.listdir(file_paths+i)
         for j in file_list:
-            print(jiter)
             jiter = jiter + 1
             ab.append(file_paths+i+"/"+j)
             file_name = j.split('.')[0]
             if len(file_name) < 1:
                 continue
-            print(file_name)
             file_name = file_name.split("_")
             
-            print(file_name)
             file_type = file_name[1]
             date_date = file_name[0]
             
@@ -498,9 +479,8 @@ def save_data4(request):
                                                         no_trades=lines[7], no_shrs=lines[8], net_turnov=lines[9],
                                                         td_clo_indi=lines[11], date_show=d, company_id=company)
                         except Exception as e:
-                            print("NSE")
                             print(e)
-                            print("End")
+                            
                     continue
             if file_type == "MCX":
                 model_name = MCXStockData
@@ -509,4 +489,3 @@ def save_data4(request):
                 model_name = NSEFOStockData
                 continue
     return JsonResponse({"a":ab})
-    print(dirs)

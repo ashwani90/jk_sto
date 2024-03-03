@@ -75,7 +75,7 @@ class Chart(models.Model):
     name = models.CharField()
     title = models.CharField()
     type = models.CharField(default="Line")
-    content = models.JSONField()
+    content = models.JSONField(default=None)
     size = models.IntegerField(null=True)
     order = models.IntegerField()
     dashboard_id = models.ForeignKey(Dashboard, on_delete=models.DO_NOTHING)

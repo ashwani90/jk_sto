@@ -22,5 +22,6 @@ urlpatterns = [
     path("get_dashboards", dashboard.get_dashboards, name="get_dashboards"),
     path("create_chart", dashboard.create_chart, name="create_chart"),
     path("chart_preview/<int:dashboard_id>/", dashboard.chart_preview, name="chart_preview"),
-    path("api/get_dashboards/<slug:search>", apiViews.get_dashboards, name="get_dashboards"),
+    path("api/get_dashboards/", apiViews.get_dashboards, name="get_dashboards"),
+    path("api/add_chart_to_dashboard/", apiViews.add_chart_to_dashboard, name="add_chart_to_dashboard"),
 ]

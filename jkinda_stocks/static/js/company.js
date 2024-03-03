@@ -1,3 +1,4 @@
+
 function getFinancials(symbol) {
   let data_url = window.main_url+"get_financials/"+symbol;
   let id_elements = [
@@ -26,6 +27,7 @@ $( "#range_5_year" ).click(() => {
   if (window.code) {
     code = window.code;
   }
+  window.chartData.range = 500;
   myChart = chartFunction("selectedCompanyChart",code,false, 500);
 })
 
@@ -34,6 +36,7 @@ $( "#range_year" ).click(() => {
   if (window.code) {
     code = window.code;
   }
+  window.chartData.range = 50;
   myChart = chartFunction("selectedCompanyChart",code,false, 50);
 })
 
@@ -42,6 +45,7 @@ $( "#range_month" ).click(() => {
   if (window.code) {
     code = window.code;
   }
+  window.chartData.range = 4;
   myChart = chartFunction("selectedCompanyChart",code,false, 4);
 })
 
@@ -50,6 +54,7 @@ $( "#range_week" ).click(() => {
   if (window.code) {
     code = window.code;
   }
+  window.chartData.range = 1;
   myChart = chartFunction("selectedCompanyChart",code,false, 1);
 })
 
@@ -78,7 +83,7 @@ $( "#company_select" ).autocomplete({
         
         if (code) {
           getFinancials("SANOFI");
-            
+          
             myChart = chartFunction("selectedCompanyChart",code,false);
             
         }
@@ -104,11 +109,86 @@ $( "#company_select" ).autocomplete({
   });
 
   $(document).ready(() => {
-
-    
-
     getFinancials("SANOFI");
     
   });
 
  
+  function sourceFunctionDashboard(request,response) {
+
+    let term = request.term;
+    let data_url = window.main_url+"api/get_dashboards/"+term;
+    
+    $.get({url: data_url, success: (result) => {
+        
+        if (result.success) {
+            let data = result.dashboards;
+            res = [];
+            for (let i=0;i<data.length;i++) {
+                res.push(data[i].id+" - "+data[i].name);
+            }
+            console.log(res);
+            console.log("Why is it not working");
+            response(res);
+            
+        } else {
+          let res = ["No Data Found"];
+          response(res);
+        }
+    }})
+}
+
+function changeFunctionDashboard(event, ui) {
+    console.log("hello");
+}
+
+$(document).ready(() => {
+  window.chartData = {};
+  let data_url = window.main_url+"api/get_dashboards/";
+  $.get({url: data_url, success: (result) => {
+        
+    if (result.success) {
+        let data = result.dashboards;
+        console.log(data);
+        res = [];
+        for (let i=0;i<data.length;i++) {
+          let val = '<button class="dropdown-item dashboard-chart-select">'+data[i].id+" - "+data[i].name+'</button>';
+          $("#select_dash_options").append(val);
+        }
+    } else {
+      console.log("Error");
+      // toastr["success"]("Unable to fetch dashboards");
+    }
+}})
+
+$("#select_dash_options").click((event) => {
+  let val = event.target.innerHTML;
+  let company = $("#company_select").val();
+  // When chart is created add info to this var
+  let chartData = window.chartData;
+  chartData.type = 1;
+  console.log(chartData);
+  if (!val || !company || !chartData) {
+    return;
+  }
+  let dashboard_id = val.split(" ")[0];
+  company = company.split(" ")[0];
+  let data = {
+    company: company,
+    chartData: JSON.stringify(chartData),
+    dashboard_id: dashboard_id
+  };
+  let data_url = window.main_url+"api/add_chart_to_dashboard/";
+  $.post({url: data_url,data: data, success: (result) => {
+    if (result.success) {
+      toastr["success"]("Added chart to dashboard");
+    } else {
+      toastr["success"]("Unable to add chart to dashboard");
+    }
+  }})
+  // else send this data back to the server
+  // and server will create an entry into the db
+
+});
+
+  });

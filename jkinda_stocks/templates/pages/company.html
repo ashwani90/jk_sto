@@ -35,7 +35,15 @@
                                         <span  class="border"><button class="btn" id="range_year">1 Y</button></span>
                                         <span  class="border"><button class="btn" id="range_month">1 M</button></span>
                                         <span  class="border"><button class="btn" id="range_week">1 W</button></span>
-                                        <i class="fa fa-plus ml-2 add-to-dashboard" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></i>
+                                        <div class="dropdown d-inline">
+                                            <i class="fa fa-plus dropdown-toggle" id="change_role" aria-hidden="true" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                            
+                                            <div class="dropdown-menu" id="select_dash_options" aria-labelledby="dropdownMenuButton">
+                                                {% comment %} <input type="text" class="form-control shadow-sm" id="dashboard_select_company" placeholder="Dashboard" /> {% endcomment %}
+                                                
+                                            </div>
+                                          </div>
+                                        
                                     </div>
                                     
                                 </div>
@@ -224,6 +232,8 @@
     {% endblock %}
 
     {% block custom_js %}
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    <script src="{% static 'js/company.js' %}"></script>
+   
    {% endblock %} 
