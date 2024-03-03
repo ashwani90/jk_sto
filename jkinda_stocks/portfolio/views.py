@@ -123,12 +123,12 @@ def update_portfolio(request):
     pass
 
 @login_required
-def delete_portfolio(request):
+def delete_portfolio(request, id):
     # mark a portfolio inactive
     # the tracking of the portfolio will stop
     # TODO check if user is authorized to delete the portfolio
     user = request.user
-    portfolio_id = request.GET.get("portfolio_id")
+    portfolio_id = id
     status = Portfolio.objects.filter(id=portfolio_id).update(active=False)
     if status:
         return JsonResponse({'success': True, "message": "Deleted portfolio"})

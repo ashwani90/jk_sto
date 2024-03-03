@@ -32,10 +32,24 @@
                                     {% for i in users %}
                                     <tr>
                                         <td>{{i.name}}</td>
-                                        <td>{{i.name}}</td>
+                                        <td>{{i.role}}</td>
                                         <td>{{i.enabled}}</td>
                                         <td>{{i.email}}</td>
-                                        <td>{{i.id}}</td>
+                                        <td class="d-flex">
+                                            <div class="dropdown">
+                                                <i class="fa fa-square dropdown-toggle" id="change_role" aria-hidden="true" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                                
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                  {% for role in roles %}
+                                                    <button class="dropdown-item role-edit-select" data-id="{{role.id}}" data-user-id="{{i.id}}">{{role.name}}</button>
+                                                  {% endfor %}
+                                                </div>
+                                              </div>
+                                            {% if not i.enabled %}
+                                            <i class="fa fa-check" id="enable_user" data-id="{{i.id}}" aria-hidden="true"></i>
+                                            {% endif %}
+                                            <i class="fa fa-trash" id="delete_user" data-id="{{i.id}}" aria-hidden="true"></i>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -78,5 +92,5 @@
 
     {% block custom_js %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-     <script src="{% static 'js/compare.js' %}"></script>
+     <script src="{% static 'js/users.js' %}"></script>
    {% endblock %} 

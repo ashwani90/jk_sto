@@ -110,3 +110,5 @@ $( "#company_select" ).autocomplete({
     getFinancials("SANOFI");
     
   });
+
+ 

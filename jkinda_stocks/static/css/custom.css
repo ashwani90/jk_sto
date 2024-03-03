@@ -12,3 +12,19 @@
     transform: scale(1.1);
     cursor: pointer;
 }
+
+.delete-button {
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    transform: scale(1.1);
+}
+
+.display-show {
+    opacity: 0;
+}
+
+.fa {
+    cursor: pointer;
+}

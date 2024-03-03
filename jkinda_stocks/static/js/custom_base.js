@@ -11,6 +11,8 @@ function sourceFunctionDashboard(request,response) {
             for (let i=0;i<data.length;i++) {
                 res.push(data[i].id+" - "+data[i].name);
             }
+            console.log(res);
+            console.log("Why is it not working");
             response(res);
             
         } else {
@@ -26,6 +28,7 @@ function changeFunctionDashboard(event, ui) {
 
 $(document).ready(() => {
     $("#dashboard_select").autocomplete({
+        appendTo: "#dashboard_select",
         source: function (request,response) {
             sourceFunctionDashboard(request, response); 
         },

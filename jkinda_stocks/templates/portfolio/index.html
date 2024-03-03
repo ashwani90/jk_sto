@@ -42,9 +42,9 @@
                             <canvas id="myAdminCompanyChart"></canvas>
                         </div>
                     </div>
-                    <div class="card pt-5 p-2">
-                    <table id="stock-table" class="display table table-striped" style="width:100%">
-                        <thead class="thead-dark">
+                    <div class="card pt-5 p-2 table-responsive mt-4 mb-4">
+                    <table class="display table table-striped" style="width:100%" cellspacing="0">
+                        <thead >
                             <tr>
                                 <th>Company</th>
                                 <th>Invested</th>
@@ -60,10 +60,9 @@
                             
                         </tbody>
                     </table>
-                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                        class="fas fa-download fa-sm text-white-50"></i> Add Stock</button>
+                    <button id="add_stock_btn" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-4 mb-4" style="width: 100px;"> Add Stock</button>
                     <div>
-                        <form class="d-flex">
+                        <form class="d-flex display-show" id="stock_form">
                             <div class="form-group mx-sm-3 m-2">
                                 <label for="company" class="sr-only">Company</label>
                                 <input type="text" class="form-control" id="company_add_stock" placeholder="Company">
@@ -80,8 +79,7 @@
                                 <label for="bought_at" class="sr-only">Date Bought</label>
                                 <input type="text" class="form-control" id="date_bought_add_stock" placeholder="Date Bought" data-provide="datepicker">
                               </div>
-                              <button class="d-none d-sm-inline-block btn btn-sm btn-warning shadow-sm m-2" id="add-stock"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Add</button>
+                              <button class="d-none d-sm-inline-block btn btn-sm btn-warning shadow-sm m-2" id="add-stock"> Add</button>
                         </form>
                     </div>
                 </div>
@@ -108,9 +106,10 @@
                                     <div class="d-flex ">
                                         <h5 class="pr-2 ">{{portfolio.returns}}</h5>
                                         <span class="px-2 text-success">({{portfolio.returns}})</span>
+                                        <span class="px-2 text-danger delete-button" data-id="{{portfolio.id}}">X</span>
                                     </div>
                                     <span class="pr-2">{{portfolio.invested}}</span>
-                                    <i class="fa fa-trash-o fa-sm text-black-50" aria-hidden="true"></i>
+                                    
                                 </div>
                             </div>
                         </div>

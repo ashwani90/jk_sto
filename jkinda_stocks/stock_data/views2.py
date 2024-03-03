@@ -36,7 +36,7 @@ def update_company(request):
 @login_required
 def index(request):
     data = {}
-    return render(request, 'pages/index.html', data)
+    return render(request, 'index.html', data)
 
 @login_required
 def company(request):

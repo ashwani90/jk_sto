@@ -16,6 +16,7 @@ from django.contrib.auth import login, authenticate
 # from .models import Activation
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from .models import Role, Profile
 
 def signup(request):
     if request.method == 'POST':
@@ -47,8 +48,9 @@ def loginMethod(request):
 
 @login_required
 def get_users(request):
-    print(request.user.id)
-    users = User.objects.filter(is_active=True)
+    
+    users = User.objects.filter(is_active=True).select_related("profile", "profile__role", "profile__organization")
+    roles = Role.objects.all()
     all_users = []
     for user in users:
         all_users.append(
@@ -56,10 +58,12 @@ def get_users(request):
                 "name": user.first_name+" "+user.last_name,
                 "email": user.email,
                 "id": user.id,
-                "enabled": user.is_active
+                "enabled": user.is_active,
+                "role": user.profile.role.name,
+                "organization_id": user.profile.organization.id
             }
         )
-    data = { "users": all_users }
+    data = { "users": all_users, "roles": roles }
     return render(request, 'pages/users.html', data)
 
 # class SignUpView(FormView):
@@ -123,3 +127,25 @@ def enable_user(request):
     else:
         return JsonResponse({"success": False, "message": "Unable to update User"})
     
+@login_required
+def delete_user(request):
+    user_to_enable = request.GET.getlist("user_id")[0]
+    current_user = request.user.id 
+    # TODO:: check current user to be same organization as user and also role as admin
+    user = User.objects.filter(id=user_to_enable).update(is_active=False)
+    if user:
+        return JsonResponse({"success": True, "message": "User Deleted"})
+    else:
+        return JsonResponse({"success": False, "message": "Unable to delete User"})
+    
+@login_required
+def change_role(request):
+    user_to_enable = request.GET.getlist("user_id")[0]
+    role_id = request.GET.getlist("role_id")[0]
+    current_user = request.user.id 
+    # TODO:: check current user to be same organization as user and also role as admin
+    user = Profile.objects.filter(user_id=user_to_enable).update(role_id=role_id)
+    if user:
+        return JsonResponse({"success": True, "message": "User Deleted"})
+    else:
+        return JsonResponse({"success": False, "message": "Unable to delete User"})

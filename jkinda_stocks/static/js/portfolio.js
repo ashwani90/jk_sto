@@ -132,3 +132,24 @@ $(".portfolio_list_item").click(function(e) {
     // load stocks
     // load graph - this will be done later on I guess
 })
+
+$(".delete-button").click((event) => {
+    let portfolio_id = event.target.dataset.id;
+    let data_url = "delete_portfolio/"+portfolio_id;
+    $.get({url: data_url, success: (result) => {
+        if (result.success) {
+            
+            toastr["success"]("Deleted portfolio");
+            window.location.reload();
+        } 
+      }})
+})
+
+$("#add_stock_btn").click(() => {
+    if ($('#stock_form').hasClass('display-show')) {
+        $("#stock_form").removeClass("display-show")
+    } else {
+        $("#stock_form").addClass("display-show");
+    }
+    
+});

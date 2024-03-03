@@ -72,16 +72,14 @@ const chartFunction = function(chart_container, companyValue=false,aChart=false,
                     },
                     scales: {
                       xAxes: [{
-                        time: {
-                          unit: 'date'
-                        },
-                        gridLines: {
-                          display: false,
-                          drawBorder: false
-                        },
                         ticks: {
-                          maxTicksLimit: 7
-                        }
+                          maxTicksLimit: 5,
+                          padding: 20,
+                          callback: function(value, index, values) {
+                            var val = value.split("-");
+                            return val[1]+"-"+val[2];
+                          }
+                        },
                       }],
                       yAxes: [{
                         ticks: {
@@ -121,7 +119,7 @@ const chartFunction = function(chart_container, companyValue=false,aChart=false,
                       callbacks: {
                         label: function(tooltipItem, chart) {
                           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                          return datasetLabel + ': ' + number_format(tooltipItem.yLabel);
+                          return datasetLabel + ':' + number_format(tooltipItem.yLabel);
                         }
                       }
                     }
