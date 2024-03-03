@@ -27,9 +27,19 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Company 1
                                         <span id="company_name"></span>
                                     </h6>
+                                    <div class="d-flex">
                                     <div class="d-flex" id="companies">
                                         
                                         <span class="border"><button class="btn" id="add_company">+</button></span>
+                                    </div>
+                                    <div class="dropdown d-inline ml-2 mt-2 pt-1">
+                                        <i class="fa fa-plus dropdown-toggle" id="change_role" aria-hidden="true" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                        
+                                        <div class="dropdown-menu" id="select_dash_options_compare" aria-labelledby="dropdownMenuButton">
+                                            {% comment %} <input type="text" class="form-control shadow-sm" id="dashboard_select_company" placeholder="Dashboard" /> {% endcomment %}
+                                            
+                                        </div>
+                                      </div>
                                     </div>
                                     
                                 </div>
@@ -57,7 +67,17 @@
                                 <div class="card-header py-3 d-flex justify-content-between">
                                     {% comment %} Would also need sector info and storing sector info data {% endcomment %}
                                     <h6 class="m-0 font-weight-bold text-primary">Financials</h6>
+                                    <div class="d-flex">
                                     <input type="text" class="form-control shadow-sm" style="width:180px;" id="company_select_fin_1" placeholder="Company" />
+                                    <div class="dropdown d-inline ml-2 mt-2 pt-1">
+                                        <i class="fa fa-plus dropdown-toggle" id="change_role" aria-hidden="true" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                        
+                                        <div class="dropdown-menu" id="select_dash_options_fin" aria-labelledby="dropdownMenuButton">
+                                            {% comment %} <input type="text" class="form-control shadow-sm" id="dashboard_select_company" placeholder="Dashboard" /> {% endcomment %}
+                                            
+                                        </div>
+                                      </div>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">

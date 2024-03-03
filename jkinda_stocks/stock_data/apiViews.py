@@ -31,6 +31,8 @@ def add_chart_to_dashboard(request):
     chart_data = json.loads(chart_data)
     if not chart_data.get('range'):
         chart_data["range"] = range
+    company_codes = company
+    company = company.split(",")[0]
     company = Company.objects.filter(code=company)[0]
     type = chart_data["type"]
     size = 1
@@ -39,7 +41,7 @@ def add_chart_to_dashboard(request):
     title = company.name + " " + company.code
     data = {
         "range": chart_data["range"],
-        "company": company.id
+        "company": company_codes
     }
     dashboard = Dashboard.objects.filter(id=dash_id)[0]
     status = Chart.objects.create(name=name, type=type, size=size, order=order,

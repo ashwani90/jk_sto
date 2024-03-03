@@ -309,3 +309,97 @@ $( "#add_company" ).click(() => {
     source: sourceFunction,
     change: changeFinancialFunction
   });
+
+  $(document).ready(function () {
+    window.chartData = {};
+    let data_url = window.main_url+"api/get_dashboards/";
+    $.get({url: data_url, success: (result) => {
+          
+      if (result.success) {
+          let data = result.dashboards;
+          console.log(data);
+          res = [];
+          for (let i=0;i<data.length;i++) {
+            let val = '<button class="dropdown-item dashboard-chart-select-compare">'+data[i].id+" - "+data[i].name+'</button>';
+            $("#select_dash_options_compare").append(val);
+            let val2 = '<button class="dropdown-item dashboard-chart-select-fin">'+data[i].id+" - "+data[i].name+'</button>';
+            $("#select_dash_options_fin").append(val2);
+          }
+      } else {
+        console.log("Error");
+        // toastr["success"]("Unable to fetch dashboards");
+      }
+  }})
+
+  $("#select_dash_options_compare").click((event) => {
+    let dashval = event.target.innerHTML;
+    var IDs = [];
+    $("#companies").find("input").each(function(){ IDs.push(this.id); });
+    let companies = [];
+    for (let i=0; i<IDs.length;i++) {
+        try {
+            val = $("#"+IDs[i]).val().split(" ")[0];
+        } catch {
+            console.log("All companies adding is recommended");
+        }
+        if (val.length>0) {
+            companies.push(val);
+        }
+    }
+    company = companies.join(",");
+    // When chart is created add info to this var
+    let chartData = window.chartData;
+    chartData.type = 1;
+    console.log(chartData);
+    if (!dashval || !company || !chartData) {
+      return;
+    }
+    let dashboard_id = dashval.split(" ")[0];
+    company = company.split(" ")[0];
+    let data = {
+      company: company,
+      chartData: JSON.stringify(chartData),
+      dashboard_id: dashboard_id
+    };
+    let data_url = window.main_url+"api/add_chart_to_dashboard/";
+    $.post({url: data_url,data: data, success: (result) => {
+      if (result.success) {
+        toastr["success"]("Added chart to dashboard");
+      } else {
+        toastr["success"]("Unable to add chart to dashboard");
+      }
+    }})
+    // else send this data back to the server
+    // and server will create an entry into the db
+  
+  });
+
+  $("#select_dash_options_fin").click((event) => {
+    let dashval = event.target.innerHTML;
+    let company = $("#company_select_fin_1").val();
+    // When chart is created add info to this var
+    let chartData = window.chartData;
+    chartData.type = 2;
+    if (!dashval || !company || !chartData) {
+      return;
+    }
+    let dashboard_id = dashval.split(" ")[0];
+    company = company.split(" ")[0];
+    let data = {
+      company: company,
+      chartData: JSON.stringify(chartData),
+      dashboard_id: dashboard_id
+    };
+    let data_url = window.main_url+"api/add_chart_to_dashboard/";
+    $.post({url: data_url,data: data, success: (result) => {
+      if (result.success) {
+        toastr["success"]("Added chart to dashboard");
+      } else {
+        toastr["success"]("Unable to add chart to dashboard");
+      }
+    }})
+    // else send this data back to the server
+    // and server will create an entry into the db
+  
+  });
+});
