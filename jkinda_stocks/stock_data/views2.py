@@ -72,7 +72,7 @@ def company(request):
 
 @login_required
 def get_companies(request, search):
-    companies = Company.objects.filter(name__icontains=search)[:10]
+    companies = Company.objects.filter(name__icontains=search, stock_index_type__in=[0,2], disabled=False)[:10]
     data = []
     for i in companies:
         data.append({"name": i.name, "id": i.code})
@@ -225,7 +225,7 @@ def show_data(request):
     # Convert range into date range
     ranges = get_date_range_from_range(range)
     if singleCode:
-        company_data = Company.objects.filter(code=code,stock_index_type=0)
+        company_data = Company.objects.filter(code=code,stock_index_type__in=[0,2], disabled=False)
         if company_data and len(company_data) > 0:
             company_data = company_data[0]
         if not company_data:
@@ -233,7 +233,10 @@ def show_data(request):
         company_name = company_data.name
         company_code = company_data.code
         company_details = {"name": company_name, 'code': company_code}
-        data = BSEStockData.objects.filter(company_id=company_data.id,date_show__range=(ranges[0], ranges[1])).order_by('-date_show')
+        if company_data.stock_index_type == 0:
+            data = BSEStockData.objects.filter(company_id=company_data.id,date_show__range=(ranges[0], ranges[1])).order_by('-date_show')
+        else:
+            data = NSEStockData.objects.filter(company_id=company_data.id,date_show__range=(ranges[0], ranges[1])).order_by('-date_show')
         result = []
         for da in data:
             result.append({"open": da.close, "close": da.close, "date": da.date_show})
@@ -241,7 +244,7 @@ def show_data(request):
         # serialized_data = json.loads(serialized_data)
         return JsonResponse(data, safe=False)
     else:
-        company_data = Company.objects.filter(code__in=codes,stock_index_type=0)
+        company_data = Company.objects.filter(code__in=codes,stock_index_type__in=[0,2], disabled=False)
         if not company_data:
             return JsonResponse({"success": False})
         company_ids = []
@@ -251,6 +254,12 @@ def show_data(request):
             company_codes_map[company.id] = company.code
         data = BSEStockData.objects.filter(company_id__in=company_ids,date_show__range=(ranges[0], ranges[1])).order_by('-date_show')
         result = {}
+        for da in data:
+            company_code = company_codes_map[da.company_id.id]
+            if company_code not in result:
+                result[company_code] = []
+            result[company_code].append({"close": da.close, "open": da.close, "date": da.date_show})
+        data = NSEStockData.objects.filter(company_id__in=company_ids,date_show__range=(ranges[0], ranges[1])).order_by('-date_show')
         for da in data:
             company_code = company_codes_map[da.company_id.id]
             if company_code not in result:
@@ -266,9 +275,9 @@ def company_dropdown(request):
     except Exception as e:
         name = False
     if name:
-        company_data = Company.objects.filter(stock_index_type=0,name__icontains=name).order_by('-id')[:100]
+        company_data = Company.objects.filter(stock_index_type__in=[0,2],name__icontains=name, disabled=False).order_by('-id')[:100]
     else:
-        company_data = Company.objects.filter(stock_index_type=0).order_by('-id')[:100]
+        company_data = Company.objects.filter(stock_index_type__in=[0,2], disabled=False).order_by('-id')[:100]
     result = []
     for ca in company_data:
         result.append({"name": ca.name, "code": ca.code, 'group': ca.group})

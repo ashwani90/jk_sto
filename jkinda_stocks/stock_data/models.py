@@ -8,6 +8,7 @@ class Company(models.Model):
     group = models.CharField()
     sc_type = models.CharField()
     stock_index_type = models.IntegerField(null=True)
+    disabled = models.BooleanField(default=False)
 
 class BSEStockData(models.Model):
     open = models.CharField()
