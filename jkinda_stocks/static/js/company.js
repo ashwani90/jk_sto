@@ -1,4 +1,21 @@
 
+function getShortFinancials(symbol) {
+  let data_url = window.main_url+"get_short_financials/"+symbol;
+    let ids = [
+      "company_name", "total_revenue", "profit", "face_value", "equity_share",
+        "e_per_share", "debt_equity", "symbol", "sector"
+    ];
+    $.get({url: data_url, success: (result) => {
+        
+      if (result.success) {
+          let data = result.companies;
+          for (let i=0;i<ids.length;i++) {
+            $("#financials__"+ids[i]).html(data[ids[i]]??"0");
+          }
+      } 
+  }})
+}
+
 function getFinancials(symbol) {
   let data_url = window.main_url+"get_financials/"+symbol;
   let id_elements = [
@@ -82,7 +99,8 @@ $( "#company_select" ).autocomplete({
         }
         
         if (code) {
-          getFinancials("SANOFI");
+          getShortFinancials(code);
+          getFinancials(code);
           
             myChart = chartFunction("selectedCompanyChart",code,false);
             

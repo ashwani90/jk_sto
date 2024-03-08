@@ -29,7 +29,7 @@ class Command(BaseCommand):
     def get_data_and_save(self,period_d):
         today = date.today()
         formatted_date = today.strftime('%d-%m-%Y')
-        yesterday = today + timedelta(-1)
+        yesterday = today + timedelta(-365)
         yesterday = yesterday.strftime('%d-%m-%Y')
         today = formatted_date
         json_data = nsefetch("https://www.nseindia.com/api/corporates-financial-results?index=equities&from_date="+yesterday+"&to_date="+today+"&period="+period_d)
@@ -45,4 +45,3 @@ class Command(BaseCommand):
                 type = 2
             records_to_create.append(FinancialDocs(company_name=company_name, symbol=symbol, data=i, date=date.today(), status=False, type=type))
         FinancialDocs.objects.bulk_create(records_to_create)
-        

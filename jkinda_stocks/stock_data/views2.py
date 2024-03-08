@@ -81,15 +81,14 @@ def get_companies(request, search):
 
 @login_required
 def get_short_financials(request, symbol):
-    if symbol != "SANOFI":
+    if not symbol:
         symbol = "SANOFI"
-    company_data = Financial.objects.filter(symbol="SANOFI", type=1).order_by('-id')
+    company_data = Financial.objects.filter(symbol=symbol, type=1).order_by('-date')
     if company_data:
         company_data = company_data[0]
     else:
         data = {}
         return JsonResponse({"companies": data, "success": False})
-    symbol = "SANOFI"
     data = company_data.data
     
     company_name = data.get("longname")
@@ -116,16 +115,16 @@ def get_short_financials(request, symbol):
 @login_required
 def get_financials(request, symbol):
     # get request financials
-    if symbol != "SANOFI":
-        symbol = "SANOFI"
-    company_data = Financial.objects.filter(symbol="SANOFI", type=1).order_by('-id')
+    if not symbol:
+        data = {}
+        return JsonResponse({"message": "No Data", "success": False})
+    company_data = Financial.objects.filter(symbol=symbol, type=1).order_by('-id')
     if company_data:
         company_data = company_data[0]
     else:
         data = {}
         return JsonResponse({"message": "No Data", "success": False})
-    
-    symbol = "SANOFI"
+
     data = company_data.data
     data = data.get("resultsData2")
     revenue = data.get("re_net_sale")
@@ -315,8 +314,9 @@ def save_data(request):
                             continue
                         if lines[0] == 'SC_CODE':
                             continue
-                        Company.objects.update_or_create(code=lines[0], name=lines[1], group=lines[2], sc_type=lines[3])
-                        company = Company.objects.filter(code=lines[0])
+                        # Company.object.filter(code=lines[0], stock_index_type=0)
+                        # Company.objects.update_or_create(code=lines[0], name=lines[1], group=lines[2], sc_type=lines[3])
+                        company = Company.objects.filter(code=lines[0], stock_index_type=0)
                         if len(company) > 0:
                             company = company[0]
                         else:
@@ -366,8 +366,10 @@ def save_data2(request):
                             continue
                         if lines[0] == 'SYMBOL':
                             continue
-                        Company.objects.update_or_create(code=lines[0], name=lines[0], group=lines[1], sc_type=lines[1])
-                        company = Company.objects.filter(code=lines[0])
+                        # Company.objects.update_or_create(code=lines[0], name=lines[0], group=lines[1], sc_type=lines[1])
+                        company = Company.objects.filter(code=lines[0], stock_index_type__in=[1,2])
+                        if not company:
+                            continue
                         if len(company) > 0:
                             company = company[0]
                         else:
@@ -396,7 +398,7 @@ def save_data2(request):
 def save_data3(request):
     # read file
     ab = []
-    file_paths = "jkinda_stocks_data/data2/"
+    file_paths = "jkinda_stocks_data/data/"
     dirs = os.listdir(file_paths)
     jiter = 1
     for i in dirs:
@@ -407,36 +409,13 @@ def save_data3(request):
             file_name = j.split('.')[0]
             if len(file_name) < 1:
                 continue
-            file_name = file_name.split("_")
-            
-            file_type = file_name[1]
-            date_date = file_name[0]
-            
-            if file_type == "BSE":
-                model_name = BSEStockData
+            if True:
             
                 with open(file_paths+i+"/"+j, mode ='r') as file:
                     csvFile = csv.reader(file)
                     for lines in csvFile:
-                        if len(lines) < 14:
-                            continue
-                        if lines[0] == 'SC_CODE':
-                            continue
-                        Company.objects.update_or_create(code=lines[0], name=lines[1], group=lines[2], sc_type=lines[3])
-                        company = Company.objects.filter(code=lines[0])
-                        if len(company) > 0:
-                            company = company[0]
-                        else:
-                            company = company
-                        day = int(date_date[6:8])
-                        month = int(date_date[4:6])
-                        year = int(date_date[0:4])
-                        d = datetime.datetime(year, month, day)
                         try:
-                            model_name.objects.update_or_create(open=lines[4], high=lines[5], low=lines[6],
-                                                        close=lines[7], last=lines[8], prevclose=lines[9],
-                                                        no_trades=lines[10], no_shrs=lines[11], net_turnov=lines[12],
-                                                        td_clo_indi=lines[13], date_show=d, company_id=company)
+                            Company.objects.filter(code=lines[1]).update(symbol=lines[3])
                         except Exception as e:
                             print(e)
     return JsonResponse({"a":ab})

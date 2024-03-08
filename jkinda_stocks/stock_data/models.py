@@ -9,6 +9,7 @@ class Company(models.Model):
     sc_type = models.CharField()
     stock_index_type = models.IntegerField(null=True)
     disabled = models.BooleanField(default=False)
+    symbol = models.CharField(default='')
 
 class BSEStockData(models.Model):
     open = models.CharField()
@@ -71,6 +72,7 @@ class Dashboard(models.Model):
     name = models.CharField()
     description = models.TextField()
     title = models.CharField()
+    enabled = models.BooleanField(default=True)
     
 class Chart(models.Model):
     name = models.CharField()
