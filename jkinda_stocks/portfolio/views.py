@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect
 from .forms import PortfolioForm
 from django.contrib.auth.decorators import login_required
 from account.models import User
-from .models import Portfolio, PortfolioStock
+from .models import Portfolio, PortfolioStock, PortfolioSnapshot
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.http import JsonResponse
@@ -142,12 +142,19 @@ def delete_portfolio(request, id):
         return JsonResponse({'success': False, "message": "Unable to delete portfolio"})
 
 @login_required
-def portfolio_graph(request):
-    # can handle multiple portfolios
-    # can accept date range
-    # add to a dashboard feature
-    # feature to check performance of portfolio if one/more stock is removed/added
-    pass
+def get_chart_data(request):
+    portfolio_id = request.GET.get("portfolio_id")
+    portfolio = Portfolio.objects.get(id=portfolio_id)
+    portfolios = PortfolioSnapshot.objects.filter(portfolio=portfolio)
+    result = []
+    for portfolio in portfolios:
+        result.append({
+            "returns": portfolio.snapshot.get('returns'),
+            "invested": portfolio.snapshot.get('invested'),
+            "date": portfolio.date
+        })
+    return JsonResponse({'success': True, "data": result})
+    
 
 @login_required
 def list_famousPortfolios(request):

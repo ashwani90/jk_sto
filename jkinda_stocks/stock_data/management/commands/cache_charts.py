@@ -38,7 +38,6 @@ class Command(BaseCommand):
             charts = Chart.objects.filter(dashboard_id__enabled=True)
         result = False
         for chart in charts:
-            print(chart.type)
             if chart.type == '1':
                 result = self.create_company_chart(chart)
                 

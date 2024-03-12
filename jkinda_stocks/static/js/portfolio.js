@@ -22,6 +22,18 @@ function get_portfolio_stocks(portfolio_id) {
     }})
 }
 
+function get_portfolio_chart(portfolio_id) {
+    data = {
+        "portfolio_id": portfolio_id,
+    }
+    let data_url = "get_chart_data/";
+    $.get({url: data_url,data: data, success: (result) => {
+        if (result.success) {
+            console.log(result);
+        } 
+    }})
+}
+
 $("#save_chart").click(() => {
   data = {
     "portfolio_id": chart_name,
@@ -35,8 +47,12 @@ $("#save_chart").click(() => {
  });
 
  $( document ).ready(function() {
+    if ($(".portfolio-item-active").attr("data-id")) {
+        window.portfolio_id = $(".portfolio-item-active").attr("data-id");
+    }
     if (window.portfolio_id) {
         get_portfolio_stocks(window.portfolio_id);
+        get_portfolio_chart(window.portfolio_id);
     }
     $(".portfolio-item-active").click();
 });
