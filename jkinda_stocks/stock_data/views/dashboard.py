@@ -89,13 +89,19 @@ def chart_preview(request, dashboard_id):
     return render(request,'pages/dashboard_preview.html', {"dashboard": dashboard, "charts": data})
 
 def get_chart_data(request):
-    chart_ids = request.GET.get('chart_ids')
-    
+    chart_ids = request.GET.get('ids')
+    chart_ids = chart_ids.split(",")
     charts = Chart.objects.filter(id__in=chart_ids)
     data = []
     for chart in charts:
-        data.append({
-            "data": chart.data
-        })
+        data.append({"id": chart.id, "content": chart.content, "type": chart.type})
     
     return JsonResponse({"success": True, "data": data})
+
+def delete_chart(request):
+    chart_id = request.GET.get('chart_id')
+    charts = Chart.objects.filter(id=chart_id).update(deleted=True)
+    if charts:
+        return JsonResponse({"success": True})
+    else:
+        return JsonResponse({"success": False})

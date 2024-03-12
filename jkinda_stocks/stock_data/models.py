@@ -73,6 +73,7 @@ class Dashboard(models.Model):
     description = models.TextField()
     title = models.CharField()
     enabled = models.BooleanField(default=True)
+    default = models.BooleanField(default=False)
     
 class Chart(models.Model):
     name = models.CharField()
@@ -83,3 +84,4 @@ class Chart(models.Model):
     order = models.IntegerField()
     dashboard_id = models.ForeignKey(Dashboard, on_delete=models.DO_NOTHING)
     data = models.JSONField(null=True)
+    deleted = models.BooleanField(default=False)

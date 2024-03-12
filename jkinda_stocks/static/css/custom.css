@@ -28,3 +28,9 @@
 .fa {
     cursor: pointer;
 }
+.dashbord_small_text {
+    color: grey;
+    font-size:small;
+    display: block;
+    margin-top: 5px;
+}

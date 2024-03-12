@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import BSEStockData, NSEStockData, MCXStockData, NSEFOStockData, Company
+from .models import BSEStockData, NSEStockData, MCXStockData, NSEFOStockData, Company, Dashboard, Chart
 import os
 import csv
 from django.core.serializers import serialize
@@ -35,7 +35,20 @@ def update_company(request):
 
 @login_required
 def index(request):
-    data = {}
+    dashboard = Dashboard.objects.filter(default=True)[0]
+    charts = Chart.objects.filter(dashboard_id=dashboard, deleted=False)
+    chart_data = []
+    for chart in charts:
+        chart_data.append({
+            "id": chart.id,
+            "type": chart.type,
+            "content": chart.content,
+            "size": chart.size,
+            "order": chart.order,
+            "name": chart.name,
+            "title": chart.title
+        })
+    data = {"chart_data": chart_data}
     return render(request, 'index.html', data)
 
 @login_required

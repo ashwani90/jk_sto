@@ -88,16 +88,16 @@ def get_stocks(request):
 def add_stock(request):
     if request.method == "POST":
         portfolio_id = request.POST.get("portfolio_id")
-        company_id = request.POST.get("company_id")
+        company_id = request.POST.get("company_id").strip()
         invested = request.POST.get("invested")
         shares = request.POST.get("shares")
         date_bought = request.POST.get("date_bought")
         bought_at = float(int(invested)/int(shares))
         current = invested
         portfolio = Portfolio.objects.get(id=portfolio_id)
-        company = Company.objects.get(id=company_id)
+        company = Company.objects.filter(code__icontains=company_id, stock_index_type__in=[0,1,2])
         date_bought = datetime.strptime(date_bought, "%m/%d/%Y").date()
-        
+        company = company[0]
         try:
             stock = PortfolioStock(
                 portfolio=portfolio,
@@ -110,6 +110,12 @@ def add_stock(request):
             )
             # TODO: if same share with different amount added perform addition of stock
             stock.save()
+            stocks = PortfolioStock.objects.filter(date_released__isnull=True, portfolio=portfolio)
+            total_invested = 0
+            for stock in stocks:
+                total_invested = total_invested + float(stock.invested)
+            portfolio.invested = total_invested
+            portfolio.save()
             return JsonResponse({'success': True, 'portfolio_id': portfolio_id})
         except Exception as e:
             # Todo log the exception maybe module wise

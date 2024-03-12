@@ -38,6 +38,7 @@ $("#save_chart").click(() => {
     if (window.portfolio_id) {
         get_portfolio_stocks(window.portfolio_id);
     }
+    $(".portfolio-item-active").click();
 });
 $('.datepicker').datepicker();
 
