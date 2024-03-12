@@ -16,7 +16,8 @@ from django.contrib.auth import login, authenticate
 # from .models import Activation
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from .models import Role, Profile
+from .models import Role, Profile, Organization
+from django.contrib.auth import logout
 
 def signup(request):
     if request.method == 'POST':
@@ -26,6 +27,9 @@ def signup(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
+            organization = Organization.objects.get(id=1)
+            role = Role.objects.get(id=3)
+            Profile.objects.create(user=user,organization=organization, role=role)
             login(request, user)
             return redirect('home')
     else:
@@ -45,6 +49,10 @@ def loginMethod(request):
     else:
         form = LoginForm()
     return render(request, 'account/login.html', {'form': form})
+
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
 
 @login_required
 def get_users(request):

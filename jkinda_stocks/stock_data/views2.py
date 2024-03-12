@@ -14,6 +14,7 @@ from financials.models import Financial
 from newsdata.models import NewsData
 from .helpers import get_date_range_from_range
 from django.contrib.auth.decorators import login_required
+from account.models import User
 
 # Create your views here.
 @login_required
@@ -35,8 +36,29 @@ def update_company(request):
 
 @login_required
 def index(request):
-    dashboard = Dashboard.objects.filter(default=True)[0]
+    dashboard_id = False
+    try:
+        dashboard_id = request.GET.get("dashboard_id")
+    except Exception:
+        pass
+    user_id = request.user.id
+    user = User.objects.get(id=user_id)
+    if not dashboard_id:
+        dashboard = Dashboard.objects.filter(user=user).order_by('-default')[0]
+    else:
+        dashboard = Dashboard.objects.get(id=int(dashboard_id))
     charts = Chart.objects.filter(dashboard_id=dashboard, deleted=False)
+    dashboards = Dashboard.objects.filter(enabled=True, user=user)
+    current_dashboard = {
+        "name": dashboard.name,
+        "title": dashboard.title
+    }
+    all_dash = []
+    for dashboard in dashboards:
+        all_dash.append({
+            "id": dashboard.id,
+            "name": dashboard.name
+        })
     chart_data = []
     for chart in charts:
         chart_data.append({
@@ -48,7 +70,7 @@ def index(request):
             "name": chart.name,
             "title": chart.title
         })
-    data = {"chart_data": chart_data}
+    data = {"chart_data": chart_data, "dashboards": all_dash, "dash": current_dashboard}
     return render(request, 'index.html', data)
 
 @login_required

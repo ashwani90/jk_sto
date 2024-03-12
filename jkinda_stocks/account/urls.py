@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import ProfileView, signup, loginMethod, get_users, delete_user, enable_user, change_role
+from .views import ProfileView, signup, loginMethod, get_users, delete_user, enable_user, change_role, logoutUser
 
 urlpatterns = [
     # path('login/', LoginView.as_view(), name='login'),
     # path("login", views.login, name="login"),
     path("signup/", signup, name="signup"),
     path("login/", loginMethod, name="login"),
+    path("logout/", logoutUser, name="logout"),
     path('profile/<int:pk>/', ProfileView.as_view(), name='profile'),
     path("users/", get_users, name="users"),
     path("enable_user/", enable_user, name="enable_user"),

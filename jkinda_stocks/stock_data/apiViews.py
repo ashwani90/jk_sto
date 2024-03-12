@@ -13,9 +13,12 @@ from financials.models import Financial
 from newsdata.models import NewsData
 from .helpers import get_date_range_from_range
 from django.views.decorators.csrf import csrf_exempt
+from account.models import User
 
 def get_dashboards(request):
-    dashboards = Dashboard.objects.filter()[:20]
+    user_id = request.user.id
+    user = User.objects.get(id=user_id)
+    dashboards = Dashboard.objects.filter(user=user)[:20]
     data = []
     for i in dashboards:
         data.append({"name": i.name, "id": i.id})

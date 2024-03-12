@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
+from account.models import User
 
 @csrf_exempt
 def create_dashboard(request):
@@ -17,8 +18,11 @@ def create_dashboard(request):
         dash_name = request.POST.get('dash_name')
         title = request.POST.get('title')
         desc = request.POST.get('desc')
-        member = Dashboard(name=dash_name, title=title, description=desc)
+        user_id = request.user.id
+        user = User.objects.get(id=user_id)
+        member = Dashboard(name=dash_name, title=title, description=desc, user=user)
         member.save()
+        
         return redirect(get_dashboards)
         # current_user_profile = request.user.profile
         # data = request.POST

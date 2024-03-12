@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -74,6 +75,7 @@ class Dashboard(models.Model):
     title = models.CharField()
     enabled = models.BooleanField(default=True)
     default = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     
 class Chart(models.Model):
     name = models.CharField()
