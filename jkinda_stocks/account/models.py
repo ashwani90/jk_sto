@@ -13,6 +13,8 @@ class Organization(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
+    def __str__(self):
+        return  self.name
     
 class Role(models.Model):
     name = models.CharField()

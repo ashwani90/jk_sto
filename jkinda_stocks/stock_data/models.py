@@ -11,6 +11,8 @@ class Company(models.Model):
     stock_index_type = models.IntegerField(null=True)
     disabled = models.BooleanField(default=False)
     symbol = models.CharField(default='')
+    def __str__(self):
+        return  self.code + " - " + self.name
 
 class BSEStockData(models.Model):
     open = models.CharField()
