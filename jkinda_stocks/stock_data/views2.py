@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import BSEStockData, NSEStockData, MCXStockData, NSEFOStockData, Company, Dashboard, Chart
+from .models import BSEStockData, NSEStockData, MCXStockData, NSEFOStockData, Company, Dashboard, Chart, Operators
 import os
 import csv
 from django.core.serializers import serialize
@@ -75,12 +75,21 @@ def index(request):
 
 @login_required
 def company(request):
+    
     company_data = Financial.objects.filter(symbol="SANOFI", type=1).order_by('-id')
     if company_data:
         company_data = company_data[0]
     else:
         data = {}
         return render(request, 'pages/company.html', data)
+    operators = Operators.objects.all()
+    operators_ar = []
+    for operator in operators:
+        operators_ar.append({
+            "name": operator.name,
+            "value": operator.value,
+            "operators": operator.db_operator
+        })
     symbol = "SANOFI"
     data = company_data.data
     
@@ -101,7 +110,8 @@ def company(request):
         "e_per_share": e_per_share,
         "debt_equity": debt_equity,
         "symbol": symbol,
-        "sector": "IT"
+        "sector": "IT",
+        "all_operators": operators_ar
     }
     return render(request, 'pages/company.html', data)
 

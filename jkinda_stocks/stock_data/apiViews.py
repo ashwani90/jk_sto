@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from .models import Dashboard, Company, Chart
+from .models import Dashboard, Company, Chart, Operators
 import os
 import csv
 from django.core.serializers import serialize
@@ -24,6 +24,17 @@ def get_dashboards(request):
         data.append({"name": i.name, "id": i.id})
     
     return JsonResponse({"dashboards": data, "success": True})
+
+def get_operators(request):
+    operators = Operators.objects.all()
+    data = []
+    for operator in operators:
+        data.append({
+            "name": operator.name,
+            "value": operator.value,
+            "operators": operator.db_operator
+        })
+    return JsonResponse({"operators": data, "success": True})
 
 @csrf_exempt
 def add_chart_to_dashboard(request):

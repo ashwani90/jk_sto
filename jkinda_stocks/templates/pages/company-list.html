@@ -1,0 +1,93 @@
+{% extends 'layout/base.html' %}
+              
+{% block content %}
+{% load static %}
+
+              <!-- Begin Page Content -->
+              <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Manage Users</h1>
+            
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">All Users</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Role</th>
+                                        <th>Enabled</th>
+                                        {% comment %} <th>Add Chart</th> {% endcomment %}
+                                        <th>Email</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {% for i in companies %}
+                                    <tr>
+                                        <td>{{i.name}}</td>
+                                        <td>{{i.role}}</td>
+                                        <td>{{i.enabled}}</td>
+                                        <td>{{i.email}}</td>
+                                        <td class="d-flex">
+                                            <div class="dropdown">
+                                                <i class="fa fa-square dropdown-toggle" id="change_role" aria-hidden="true" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                                
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                  {% for role in roles %}
+                                                    <button class="dropdown-item role-edit-select" data-id="{{role.id}}" data-user-id="{{i.id}}">{{role.name}}</button>
+                                                  {% endfor %}
+                                                </div>
+                                              </div>
+                                            {% if not i.enabled %}
+                                            <i class="fa fa-check" id="enable_user" data-id="{{i.id}}" aria-hidden="true"></i>
+                                            {% endif %}
+                                            <i class="fa fa-trash" id="delete_user" data-id="{{i.id}}" aria-hidden="true"></i>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+           
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+   

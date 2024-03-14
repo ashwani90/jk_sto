@@ -28,6 +28,19 @@
 .fa {
     cursor: pointer;
 }
+.wi-80 {
+    width: 80vw!important;
+    max-width: 80vw!important;
+}
+.wi-10 {
+    width: 60px!important;
+}
+.wi-5 {
+    width: 5%!important;
+}
+.wi-15 {
+    width: 90px!important;
+}
 .dashbord_small_text {
     color: grey;
     font-size:small;
@@ -38,3 +51,33 @@
 .dashbord-name {
     font-size: 1.3rem;
 }
+
+.add_operator {
+    font-size: 25px;
+    
+}
+
+#operators {
+    width: 97%!important;
+    max-width: 97%!important;
+}
+
+.operators {
+    overflow: auto;
+    
+}
+
+.form-control-close {
+    position: absolute;
+    right: 0;
+    top: 2px;
+    font-size: 15px;
+}
+
+.form-close-container {
+    position: relative;
+}
+
+.form-close-container select, .form-close-container input {
+    font-size: 13px;
+} 

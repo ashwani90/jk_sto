@@ -16,6 +16,52 @@ function getShortFinancials(symbol) {
   }})
 }
 
+function getOperatorsForData() {
+  if (event.target.value) {
+    if (window.operator_data) {
+      let operator_data = window.operator_data;
+      let operator_actions = "";
+      for (let i=0;i<operator_data.length;i++) {
+        if (operator_data[i].value == event.target.value) {
+          operator_actions = operator_data[i].operators;
+        }
+      }
+      operator_actions = operator_actions.split(",");
+      let operator_obj = {
+        "lte": "<=",
+        "gte": ">=",
+        "lt": "<",
+        "gt": ">",
+        "e": "=",
+        "ne": "!=",
+      };
+      operator_drop = [];
+      for (let j=0;j<operator_actions.length;j++) {
+        let opKey = operator_actions[j];
+        operator_drop.push([opKey, operator_obj[opKey]]);
+      }
+      let htmlO = "";
+      for (let i=0;i<operator_drop.length;i++) {
+        htmlO += `<option value="${operator_drop[i][0]}">${operator_drop[i][1]}</option>`
+      }
+      return htmlO;
+    }
+  }
+}
+
+function getAllOperators() {
+  let data_url = window.main_url+"/api/get_operators";
+  $.get({url: data_url, success: (result) => {
+        
+    if (result.success) {
+        let data = result.operators;
+        for (let i=0;i<data.length;i++) {
+          window.operator_data = data;
+        }
+    } 
+}})
+}
+
 function getFinancials(symbol) {
   let data_url = window.main_url+"get_financials/"+symbol;
   let id_elements = [
@@ -128,8 +174,47 @@ $( "#company_select" ).autocomplete({
 
   $(document).ready(() => {
     getFinancials("SANOFI");
-    
+    getAllOperators();
   });
+
+  $("#add_operator").click(function () {
+    let htmlInput = `<div class="d-flex align-items-center  form-close-container"><span>&</span>`;
+    
+    htmlInput += `<select class="key-selector form-select form-control shadow-sm m-1 wi-15" aria-label="Default select example">
+    <option selected>Op</option>`;
+    for (let i=0;i<window.operator_data.length;i++) {
+      htmlInput += `<option value="${window.operator_data[i].value}">${window.operator_data[i].name}</option>`;
+    }
+    htmlInput += `</select>
+    <select class="op-selector form-control shadow-sm m-1 wi-10">
+                                        <option selected>Op</option>
+                                    </select>
+                                    <input type="text" class="value-selector form-control shadow-sm m-1 wi-15" placeholder="val" />
+                                    <i class="close-icon-form fa fa-times-circle form-control-close text-danger" aria-hidden="true"></i>
+                                    </div>
+    `;
+    $("#operator-container").append(htmlInput);
+    $(".close-icon-form").click(function () {
+      console.log("Getting called");
+      $(this).parent().remove();
+    });
+
+    $(".key-selector").change(function (event) {
+      let abc = getOperatorsForData();
+      $(this).next().html(abc);
+  })
+    
+  })
+
+  $(".close-icon-form").click(function () {
+    console.log("Getting called");
+    $(this).parent().remove();
+  });
+
+  $(".key-selector").change(function (event) {
+      let abc = getOperatorsForData();
+      $(this).next().html(abc);
+  })
 
  
   function sourceFunctionDashboard(request,response) {
@@ -210,3 +295,16 @@ $("#select_dash_options").click((event) => {
 });
 
   });
+
+$("#search-btn-stock").click((event) => {
+  // get all the values and send to the server
+  let data = '';
+  for (let i=0;i<$("#operator-container").find('div').length; i++) {
+    let key = $("#operator-container").find('div .key-selector')[i].value;
+    let value = $("#operator-container").find('div .op-selector')[i].value;
+    let operator = $("#operator-container").find('div .value-selector')[i].value;
+    data += key+","+value+","+operator+":";
+  }
+  // redirect the user to company list page with these params
+  window.location.href = "/company-list/"+data
+})

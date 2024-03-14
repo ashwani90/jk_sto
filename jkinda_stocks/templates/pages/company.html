@@ -15,6 +15,31 @@
                                     </div>
                         
                     </div>
+                    <div class="wi-80 m-2 d-flex flex-row">
+                        <div class="wi-80 card d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex justify-cotent-center align-items-center" id="operators">
+                                <div class="operators d-flex flex-row align-items-center" id="operator-container">
+                                    <div class="d-flex align-items-center form-close-container">
+                                    <select class="key-selector form-select form-control shadow-sm m-1 wi-15" aria-label="Default select example">
+                                        <option selected>Op</option>
+                                        {% for operator in all_operators %}
+                                            <option value="{{operator.value}}">{{operator.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select class="op-selector form-control shadow-sm m-1 wi-10">
+                                        <option selected>Op</option>
+                                    </select>
+                                    <input type="text" class="value-selector form-control shadow-sm m-1 wi-15" placeholder="val" />
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            <span class="add_operator mt-1 ml-2 mr-2" id="add_operator"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                        </div>
+                        <button id="search-btn-stock" class="btn btn-secondary w-10 ml-2">Search</button>
+                    
+                    </div>
                     <!-- Content Row -->
                     <div class="row">
 

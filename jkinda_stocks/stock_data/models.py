@@ -13,6 +13,15 @@ class Company(models.Model):
     symbol = models.CharField(default='')
     def __str__(self):
         return  self.code + " - " + self.name
+    
+class Operators(models.Model):
+    name = models.CharField()
+    value = models.CharField()
+    db_operator = models.CharField()
+    # operator mapping will be created in the class for it
+    # later on it could be fetched from the db
+    def __str__(self):
+        return self.name
 
 class BSEStockData(models.Model):
     open = models.CharField()
