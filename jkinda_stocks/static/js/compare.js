@@ -206,7 +206,7 @@ function sourceFunction(request, response) {
     companies = companies.join(",");
     
     
-    myChart = chartFunctionBase("myAdminCompanyChart2",companies,false);
+    myChart = chartDataFunction("chart-area",companies,false, 'line', 0);
   }
 
   function addData(chart, label, newData) {
@@ -311,7 +311,14 @@ $( "#add_company" ).click(() => {
   });
 
   $(document).ready(function () {
+    companies = "TATAMOTORS";
+    myChart = chartDataFunction("chart-area",companies,false, 'line', 0);
+  });
+
+  $(document).ready(function () {
+    
     window.chartData = {};
+    
     let data_url = window.main_url+"api/get_dashboards/";
     $.get({url: data_url, success: (result) => {
           
@@ -329,6 +336,7 @@ $( "#add_company" ).click(() => {
         console.log("Error");
         // toastr["success"]("Unable to fetch dashboards");
       }
+      
   }})
 
   $("#select_dash_options_compare").click((event) => {

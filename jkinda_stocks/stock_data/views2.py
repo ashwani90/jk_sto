@@ -283,7 +283,7 @@ def show_data(request):
             data = NSEStockData.objects.filter(company_id=company_data.id,date_show__range=(ranges[0], ranges[1])).order_by('-date_show')
         result = []
         for da in data:
-            result.append({"open": da.close, "close": da.close, "date": da.date_show})
+            result.append({"open": da.open, "close": da.close, "low": da.low, "high": da.high, "date": da.date_show})
         data = {"data": result, "companyDetails": company_details}
         # serialized_data = json.loads(serialized_data)
         return JsonResponse(data, safe=False)
@@ -302,13 +302,13 @@ def show_data(request):
             company_code = company_codes_map[da.company_id.id]
             if company_code not in result:
                 result[company_code] = []
-            result[company_code].append({"close": da.close, "open": da.close, "date": da.date_show})
+            result[company_code].append({"close": da.close, "high": da.high, "low": da.low, "open": da.open, "date": da.date_show})
         data = NSEStockData.objects.filter(company_id__in=company_ids,date_show__range=(ranges[0], ranges[1])).order_by('-date_show')
         for da in data:
             company_code = company_codes_map[da.company_id.id]
             if company_code not in result:
                 result[company_code] = []
-            result[company_code].append({"close": da.close, "open": da.close, "date": da.date_show})
+            result[company_code].append({"close": da.close, "high": da.high, "low": da.low, "open": da.open, "date": da.date_show})
         data = {"data": result}
         return JsonResponse(data, safe=False)
     

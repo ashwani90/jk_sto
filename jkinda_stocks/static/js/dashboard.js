@@ -225,10 +225,10 @@ function createFinancials(id,content) {
               
               let preData = {}
               preData[curr.content[1].code] = curr.content[0];
-              chartFunctionDashboard("selectedCompanyChart_"+id, preData, false);
+              createChartJK(preData, "selectedCompanyChart_container_"+id, true);
             } 
             if (curr.type == '1') {
-              chartFunctionDashboard("selectedCompanyChart_"+id, curr.content, false);
+              createChartJK(curr.content, "selectedCompanyChart_container_"+id, true);
             }
             if (curr.type == '2') {
               createFinancials("selectedCompanyChart_"+id, curr.content);

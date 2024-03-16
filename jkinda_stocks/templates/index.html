@@ -42,12 +42,13 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area">
+                                    <div class="chart-area" id="selectedCompanyChart_container_{{chart.id}}">
                                         {% if chart.type == '2' %}
                                         <div class="charts_for_dash" id="selectedCompanyChart_{{chart.id}}" class="text-center">
                                         </div>
                                         {% else %}
-                                        <canvas class="charts_for_dash" id="selectedCompanyChart_{{chart.id}}" data-type="{{chart.type}}"></canvas>
+                                        <div class="charts_for_dash" id="selectedCompanyChart_{{chart.id}}" class="text-center">
+                                        </div>
                                         {% endif %}
                                         
                                     </div>

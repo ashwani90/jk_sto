@@ -10,3 +10,4 @@ beautifulsoup4
 nsepython
 xmltodict
 arrow
+chatterbot

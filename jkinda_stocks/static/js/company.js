@@ -91,7 +91,8 @@ $( "#range_5_year" ).click(() => {
     code = window.code;
   }
   window.chartData.range = 500;
-  myChart = chartFunction("selectedCompanyChart",code,false, 500);
+  chartDataFunction("chart-area",code,500);
+  
 })
 
 $( "#range_year" ).click(() => {
@@ -100,7 +101,8 @@ $( "#range_year" ).click(() => {
     code = window.code;
   }
   window.chartData.range = 50;
-  myChart = chartFunction("selectedCompanyChart",code,false, 50);
+  chartDataFunction("chart-area",code,50);
+  
 })
 
 $( "#range_month" ).click(() => {
@@ -109,7 +111,8 @@ $( "#range_month" ).click(() => {
     code = window.code;
   }
   window.chartData.range = 4;
-  myChart = chartFunction("selectedCompanyChart",code,false, 4);
+  chartDataFunction("chart-area",code,4);
+  
 })
 
 $( "#range_week" ).click(() => {
@@ -118,7 +121,20 @@ $( "#range_week" ).click(() => {
     code = window.code;
   }
   window.chartData.range = 1;
-  myChart = chartFunction("selectedCompanyChart",code,false, 1);
+  chartDataFunction("chart-area",code,4);
+  
+})
+
+$("#change-chart").click(function () {
+  if ($(this).hasClass('active')) {
+    $(this).removeClass('active');
+    window.type = 'line';
+    chartDataFunction('chart-area', window.code, false, 'line')
+  } else {
+    $(this).addClass('active');
+    window.type = 'candle';
+    chartDataFunction('chart-area', window.code, false, 'candle')
+  }
 })
 
 $( "#company_select" ).autocomplete({
@@ -147,8 +163,7 @@ $( "#company_select" ).autocomplete({
         if (code) {
           getShortFinancials(code);
           getFinancials(code);
-          
-            myChart = chartFunction("selectedCompanyChart",code,false);
+            myChart = chartDataFunction("chart-area",code,false);
             
         }
         
@@ -169,7 +184,7 @@ $( "#company_select" ).autocomplete({
   });
 
   $(document).ready(() => {
-    myChart = chartFunction("selectedCompanyChart",false,false);
+    myChart = chartDataFunction("chart-area");
   });
 
   $(document).ready(() => {

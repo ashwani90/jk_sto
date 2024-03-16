@@ -81,3 +81,8 @@
 .form-close-container select, .form-close-container input {
     font-size: 13px;
 } 
+
+.candle-chart.active {
+    background-color: white;
+    color: orange;
+}

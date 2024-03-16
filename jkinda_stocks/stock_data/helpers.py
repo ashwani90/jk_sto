@@ -32,7 +32,7 @@ def single_company_chart(code, range):
         data = NSEStockData.objects.filter(company_id=company_data.id,date_show__range=(ranges[0], ranges[1])).order_by('-date_show')
     result = []
     for da in data:
-        result.append({"open": da.close, "close": da.close, "date": str(da.date_show)})
+        result.append({"open": da.open, "high": da.high, "low": da.low, "close": da.close, "date": str(da.date_show)})
     return result, company_details
 
 def multiple_company_chart(codes, range):
@@ -51,13 +51,13 @@ def multiple_company_chart(codes, range):
         company_code = company_codes_map[da.company_id.id]
         if company_code not in result:
             result[company_code] = []
-        result[company_code].append({"close": da.close, "open": da.close, "date": str(da.date_show)})
+        result[company_code].append({"close": da.close, "high": da.high, "low": da.low, "open": da.open, "date": str(da.date_show)})
     data = NSEStockData.objects.filter(company_id__in=company_ids,date_show__range=(ranges[0], ranges[1])).order_by('-date_show')
     for da in data:
         company_code = company_codes_map[da.company_id.id]
         if company_code not in result:
             result[company_code] = []
-        result[company_code].append({"close": da.close, "open": da.close, "date": str(da.date_show)})
+        result[company_code].append({"close": da.close, "high": da.high, "low": da.low, "open": da.open, "date": str(da.date_show)})
     return result
 
 def get_short_financials(symbol):
