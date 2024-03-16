@@ -256,9 +256,6 @@ $( "#company_select" ).autocomplete({
     }})
 }
 
-function changeFunctionDashboard(event, ui) {
-    console.log("hello");
-}
 
 $(document).ready(() => {
   window.chartData = {};

@@ -7,12 +7,15 @@ class Command(BaseCommand):
     help = "Save portfolio snapshot"
     
     def add_arguments(self, parser):
-        pass
+        parser.add_argument("--day", nargs="+", type=str)
         # parser.add_argument("poll_ids", nargs="+", type=int)
 
     def handle(self, *args, **options):
         today = date.today()
-        yesterday = today + timedelta(-11)
+        day = 1
+        if options['day']:
+            day = int(options["day"][0])
+        yesterday = today - timedelta(day)
         yesterday = yesterday.strftime('%Y-%m-%d')
         today = yesterday
         portfolios = Portfolio.objects.filter(active=True)

@@ -4,7 +4,93 @@ function getTime(ts) {
     return newDate.getTime();
 }
 
-function createChartJK(dataAll, id, isMultiple=false) {
+function generateChart(id,all_dates) {
+  var options = {
+    series: all_dates,
+    chart: {
+    type: 'area',
+    stacked: false,
+    height: 350,
+    zoom: {
+      type: 'x',
+      enabled: true,
+      autoScaleYaxis: true
+    },
+    toolbar: {
+      autoSelected: 'zoom'
+    }
+  },
+  dataLabels: {
+    enabled: false
+  },
+  markers: {
+    size: 0,
+  },
+  title: {
+    text: 'Stock Price',
+    align: 'left'
+  },
+  fill: {
+    type: 'gradient',
+    gradient: {
+      shadeIntensity: 1,
+      inverseColors: false,
+      opacityFrom: 0.5,
+      opacityTo: 0,
+      stops: [0, 90, 100]
+    },
+  },
+  yaxis: {
+    labels: {
+      formatter: function (val) {
+        return val;
+      },
+    },
+    title: {
+      text: 'Price'
+    },
+  },
+  xaxis: {
+    type: 'datetime',
+  },
+  tooltip: {
+    shared: false,
+    y: {
+      formatter: function (val) {
+        return val
+      }
+    }
+  }
+  };
+  document.querySelector("#"+id).innerHTML = "";
+  var chart = new ApexCharts(document.querySelector("#"+id), options);
+  chart.render();
+}
+
+function createChartJK(dataAll, id, isMultiple=false, type=false) {
+  if (type == "portfolio") {
+    var all_dates = [];
+    var dates = [];
+    var dates2 = [];
+    for (var i=0;i<dataAll.length;i++) {
+      var ts2 = dataAll[i].date;
+      ts2 = getTime(ts2);
+      var innerArr = [ts2, dataAll[i].returns];
+      var innerArr2 = [ts2, dataAll[i].invested];
+      dates.push(innerArr);
+      dates2.push(innerArr2);
+    }
+    all_dates.push({
+      name: key,
+      data: dates
+    });
+    all_dates.push({
+      name: key,
+      data: dates2
+    });
+    generateChart(id, all_dates);
+    return;
+  }
   var dataSeries;
   if (dataAll.data == undefined) {
     dataSeries = dataAll;
@@ -46,67 +132,7 @@ function createChartJK(dataAll, id, isMultiple=false) {
       data: dates
     });
   }
-  
-    var options = {
-        series: all_dates,
-        chart: {
-        type: 'area',
-        stacked: false,
-        height: 350,
-        zoom: {
-          type: 'x',
-          enabled: true,
-          autoScaleYaxis: true
-        },
-        toolbar: {
-          autoSelected: 'zoom'
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      markers: {
-        size: 0,
-      },
-      title: {
-        text: 'Stock Price',
-        align: 'left'
-      },
-      fill: {
-        type: 'gradient',
-        gradient: {
-          shadeIntensity: 1,
-          inverseColors: false,
-          opacityFrom: 0.5,
-          opacityTo: 0,
-          stops: [0, 90, 100]
-        },
-      },
-      yaxis: {
-        labels: {
-          formatter: function (val) {
-            return val;
-          },
-        },
-        title: {
-          text: 'Price'
-        },
-      },
-      xaxis: {
-        type: 'datetime',
-      },
-      tooltip: {
-        shared: false,
-        y: {
-          formatter: function (val) {
-            return val
-          }
-        }
-      }
-      };
-      document.querySelector("#"+id).innerHTML = "";
-      var chart = new ApexCharts(document.querySelector("#"+id), options);
-      chart.render();
+  generateChart(id, all_dates);
 }
 
 function createCandleSticksChart(dataSeries, id) {

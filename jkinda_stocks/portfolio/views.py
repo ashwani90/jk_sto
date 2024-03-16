@@ -145,7 +145,7 @@ def delete_portfolio(request, id):
 def get_chart_data(request):
     portfolio_id = request.GET.get("portfolio_id")
     portfolio = Portfolio.objects.get(id=portfolio_id)
-    portfolios = PortfolioSnapshot.objects.filter(portfolio=portfolio)
+    portfolios = PortfolioSnapshot.objects.filter(portfolio=portfolio).order_by("-date")
     result = []
     for portfolio in portfolios:
         result.append({

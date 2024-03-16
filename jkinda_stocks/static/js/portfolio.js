@@ -23,13 +23,11 @@ function get_portfolio_stocks(portfolio_id) {
 }
 
 function get_portfolio_chart(portfolio_id) {
-    data = {
-        "portfolio_id": portfolio_id,
-    }
-    let data_url = "get_chart_data/";
-    $.get({url: data_url,data: data, success: (result) => {
+    let data_url = "get_portfolio_chart_data?portfolio_id="+portfolio_id;
+    $.get({url: data_url, success: (result) => {
         if (result.success) {
-            console.log(result);
+            var data = result.data;
+            createChartJK(data, 'myAdminCompanyChartContainer', false, 'portfolio');
         } 
     }})
 }
@@ -62,7 +60,6 @@ $( "#company_add_stock" ).autocomplete({
     source: function (request,response) {
         let term = request.term;
         let data_url = window.main_url+"get_companies/"+term;
-        console.log(data_url);
         $.get({url: data_url, success: (result) => {
             
             if (result.success) {
@@ -132,6 +129,7 @@ $("#add-stock").click(function(e) {
             $("#date_bought_add_stock").val("");
             toastr["success"]("Added stock to Portfolio");
             get_portfolio_stocks(portfolio_id);
+            get_portfolio_chart(portfolio_id)
             // show toaster kind of message
           // reload data
         } 
@@ -146,6 +144,7 @@ $(".portfolio_list_item").click(function(e) {
     $(this).addClass("portfolio-item-active");
     window.portfolio_id = portfolio_id;
     get_portfolio_stocks(portfolio_id)
+    get_portfolio_chart(portfolio_id)
     // load stocks
     // load graph - this will be done later on I guess
 })
