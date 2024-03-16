@@ -14,6 +14,15 @@ class Company(models.Model):
     def __str__(self):
         return  self.code + " - " + self.name
     
+class CompanyDetails(models.Model):
+    p_e = models.CharField()
+    face_value = models.CharField(null=True)
+    market_cap = models.CharField(null=True)
+    employees = models.CharField(default=None, null=True)
+    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING)
+    def __str__(self):
+        return  self.company.name
+    
 class Operators(models.Model):
     name = models.CharField()
     value = models.CharField()

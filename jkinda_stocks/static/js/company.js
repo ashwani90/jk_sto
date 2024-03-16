@@ -188,8 +188,11 @@ $( "#company_select" ).autocomplete({
   });
 
   $(document).ready(() => {
-    getFinancials("SANOFI");
+    var sym = $("#symbol-input").val();
+    getFinancials(sym ? sym : 'TATAMOTORS');
+    getShortFinancials(sym ? sym : 'TATAMOTORS');
     getAllOperators();
+    chartDataFunction("chart-area",sym ? sym : 'TATAMOTORS',500);
   });
 
   $("#add_operator").click(function () {
@@ -318,5 +321,5 @@ $("#search-btn-stock").click((event) => {
     data += key+","+value+","+operator+":";
   }
   // redirect the user to company list page with these params
-  window.location.href = "/company-list/"+data
+  window.location.href = "/company-list?op="+data
 })

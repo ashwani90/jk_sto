@@ -98,12 +98,12 @@ class Command(BaseCommand):
                 continue
             i = i.strip()
             result.append(i)
-        if len(result ==0):
+        if len(result) == 0:
             return False
-        date = result[-1]
-        date_obj = datetime.strptime(date, '%b %d %Y')
-        today = date.today()
+        date_ = result[-1]
+        date_obj = datetime.strptime(date_, '%b %d %Y')
+        today = datetime.today()
         if today > date_obj:
-            return False
+            return True
         else:
             return True

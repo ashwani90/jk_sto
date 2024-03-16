@@ -15,6 +15,7 @@ from newsdata.models import NewsData
 from .helpers import get_date_range_from_range
 from django.contrib.auth.decorators import login_required
 from account.models import User
+from .query import create_query
 
 # Create your views here.
 @login_required
@@ -73,10 +74,17 @@ def index(request):
     data = {"chart_data": chart_data, "dashboards": all_dash, "dash": current_dashboard}
     return render(request, 'index.html', data)
 
+def company_list(request):
+    operator = request.GET.get("op")
+    result = create_query(operator)
+    data = {"result": result}
+    return render(request, 'pages/company-list.html', data)
+
 @login_required
 def company(request):
-    
-    company_data = Financial.objects.filter(symbol="SANOFI", type=1).order_by('-id')
+    symbol="SANOFI"
+    symbol = request.GET.get("symbol")
+    company_data = Financial.objects.filter(symbol=symbol, type=1).order_by('-id')
     if company_data:
         company_data = company_data[0]
     else:
@@ -90,8 +98,8 @@ def company(request):
             "value": operator.value,
             "operators": operator.db_operator
         })
-    symbol = "SANOFI"
     data = company_data.data
+    print(data)
     
     company_name = data.get("longname")
     data = data.get("resultsData2")
@@ -113,6 +121,7 @@ def company(request):
         "sector": "IT",
         "all_operators": operators_ar
     }
+    print(data)
     return render(request, 'pages/company.html', data)
 
 @login_required

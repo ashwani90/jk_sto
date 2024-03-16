@@ -6,4 +6,4 @@ class NewsData(models.Model):
     date = models.DateField()
     data = models.TextField()
     processed = models.BooleanField(default=False)
-    
+    tags = models.CharField(default="")

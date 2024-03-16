@@ -80,7 +80,9 @@
                             </div>
                         </div>
                         <div class="col-lg-5 col-lg-4 mb-4">
-
+                            {% if symbol %}
+                            <input type="hidden" value="{{symbol}}" id="symbol-input"/>
+                            {% endif %}
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">

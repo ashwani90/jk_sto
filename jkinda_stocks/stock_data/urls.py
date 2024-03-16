@@ -12,6 +12,7 @@ urlpatterns = [
     path("show_data", views2.show_data, name="show_data"),
     path("compare_view", views2.compare_view, name="compare_view"),
     path("company/", views2.company, name="company"),
+    path("company-list/", views2.company_list, name="company_list"),
     path("get_companies/<slug:search>", views2.get_companies, name="get_companies"),
     path("get_financials/<slug:symbol>", views2.get_financials, name="get_financials"),
     path("get_short_financials/<slug:symbol>", views2.get_short_financials, name="get_short_financials"),
