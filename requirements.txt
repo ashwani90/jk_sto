@@ -11,3 +11,4 @@ nsepython
 xmltodict
 arrow
 chatterbot
+fuzzywuzzy
