@@ -24,3 +24,4 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, default=None)
     role = models.ForeignKey(Role, on_delete=models.CASCADE, default=None)
+    delHistoryDate = models.DateTimeField(blank=True, null=True, default=None)
