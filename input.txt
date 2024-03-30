@@ -1,0 +1,3 @@
+Gracefully stopping... (press Ctrl+C again to force)
+Attaching to jkinda_stocks_web_1
+Gracefully stopping... (press Ctrl+C again to force)

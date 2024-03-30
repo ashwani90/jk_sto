@@ -40,11 +40,11 @@ function createFinancials(id,content) {
                                                 <td><b>Symbol:</b> <span>${content.symbol}</span></td>
                                             </tr>
                                             <tr>
-                                                <td><b>Total Revenue:</b> <span>${content.total_revenue}</span></td>
-                                                <td><b>Profit:</b> <span>${content.profit}</span></td>
+                                                <td><b>Total Revenue:</b> <span>${content.total_revenue}</span> Lacs</td>
+                                                <td><b>Profit:</b> <span>${content.profit}</span> Lacs</td>
                                             </tr>
                                             <tr>
-                                                <td><b>Equity Share:</b> <span>${content.equity_share}</span></td>
+                                                <td><b>Paid Up Equity Share:</b> <span>${content.equity_share}</span> Lacs</td>
                                                 <td><b>Equity Per Share:</b> <span>${content.e_per_share}</span></td>
                                             </tr>
                                             <tr>
