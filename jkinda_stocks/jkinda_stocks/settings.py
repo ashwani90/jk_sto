@@ -12,7 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-
+import datetime
+import django
+from django.utils.encoding import smart_str
+django.utils.encoding.smart_text = smart_str
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,8 +28,10 @@ SECRET_KEY = 'django-insecure-e1t#epgq+jcz%68*b1k$geu7il1zlf_!a!i270@^asb)5y#^y*
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if os.getcwd() == '/chat':
+    DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "0.0.0.0"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -38,6 +43,7 @@ INSTALLED_APPS = [
     "stock_data.apps.StockDataConfig",
     "account.apps.AccountConfig",
     "portfolio.apps.PortfolioConfig",
+    "chat.apps.ChatConfig",
     "financials.apps.FinancialsConfig",
     "newsdata.apps.NewsdataConfig",
     'django.contrib.admin',
@@ -48,6 +54,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'channels',
+    'rest_framework',
+    'crispy_forms',
     'bootstrap4',
     'active_link',
 ]
@@ -81,7 +90,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'jkinda_stocks.wsgi.application'
+# WSGI_APPLICATION = 'jkinda_stocks.wsgi.application'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
@@ -99,6 +108,23 @@ DATABASES = {
     }
 }
 
+ASGI_APPLICATION = 'jkinda_stocks.asgi.application'
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "asgi_redis.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+#         },
+#         "ROUTING": "jkinda_stocks.routing.channel_routing",
+#     },
+# }
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -151,3 +177,29 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.contrib.messages.context_processors.messages",
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    # 'DEFAULT_PARSER_CLASSES': (
+    #     'rest_framework.parsers.JSONParser',
+    # )
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES':(
+    #'rest_framework.permissions.IsAuthenticated',    
+    #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    'rest_framework.permissions.AllowAny',    
+    ), 
+}
+
+JWT_AUTH = {
+     'JWT_ALLOW_REFRESH' : False, #True #allow token refersh
+     'JWT_EXPIRATION_DELTA' : datetime.timedelta(days=1),
+     #'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+     #'JWT_LEEWAY': 20,#seconds
+     }

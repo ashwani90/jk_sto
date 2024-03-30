@@ -17,9 +17,19 @@ services:
     # command: python jkinda_stocks/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
     # depends_on:
     #   - rabbit1
+    network_mode: "host"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+volumes:
+  cache:
+    driver: local
