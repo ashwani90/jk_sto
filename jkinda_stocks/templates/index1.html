@@ -15,7 +15,7 @@
     <script>
         $(document).ready(
             function(){
-                $.ajax({url: "http://0.0.0.0:8000/show_data?code=500570", success: function(result){
+                $.ajax({url: "http://localhost:8000/show_data?code=500570", success: function(result){
                     xValues = [];
                     yValues = [];
                     for (let i=0;i<result.data.length;i++) {
@@ -44,7 +44,7 @@
         );
         $(document).ready(
             function(){
-                $.ajax({url: "http://0.0.0.0:8000/company_dropdown", success: function(result){
+                $.ajax({url: "http://localhost:8000/company_dropdown", success: function(result){
                     xValues = [];
                     for (let i=0;i<result.data.length;i++) {
                         xValues.push({name: result.data[i].name, code: result.data[i].code})
@@ -61,7 +61,7 @@
         );
         $("#company").change(() => {
             let companyValue = $('#company option:selected').text();
-                $.ajax({url: "http://0.0.0.0:8000/show_data?code="+companyValue, success: function(result){
+                $.ajax({url: "http://localhost:8000/show_data?code="+companyValue, success: function(result){
                     xValues = [];
                     yValues = [];
                     for (let i=0;i<result.data.length;i++) {

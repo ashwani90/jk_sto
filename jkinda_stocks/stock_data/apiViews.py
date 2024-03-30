@@ -13,10 +13,14 @@ from financials.models import Financial
 from newsdata.models import NewsData
 from .helpers import get_date_range_from_range
 from django.views.decorators.csrf import csrf_exempt
-from account.models import User
+from django.contrib.auth.models import User
 
 def get_dashboards(request):
-    user_id = request.user.id
+    if request.user.is_authenticated:
+        
+        user_id = request.user.id
+    else:
+        return JsonResponse({"dashboards": [], "success": False})
     user = User.objects.get(id=user_id)
     dashboards = Dashboard.objects.filter(user=user)[:20]
     data = []

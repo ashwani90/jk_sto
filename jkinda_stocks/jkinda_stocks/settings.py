@@ -90,7 +90,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'jkinda_stocks.wsgi.application'
+WSGI_APPLICATION = 'jkinda_stocks.wsgi.application'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
@@ -108,7 +108,7 @@ DATABASES = {
     }
 }
 
-ASGI_APPLICATION = 'jkinda_stocks.asgi.application'
+# ASGI_APPLICATION = 'jkinda_stocks.asgi.application'
 
 # CHANNEL_LAYERS = {
 #     "default": {
