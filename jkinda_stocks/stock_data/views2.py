@@ -124,7 +124,7 @@ def company(request):
     print(data)
     return render(request, 'pages/company.html', data)
 
-@login_required
+
 def get_companies(request, search):
     companies = Company.objects.filter(name__icontains=search, stock_index_type__in=[0,2], disabled=False)[:10]
     data = []
@@ -133,7 +133,7 @@ def get_companies(request, search):
     
     return JsonResponse({"companies": data, "success": True})
 
-@login_required
+
 def get_short_financials(request, symbol):
     if not symbol:
         symbol = "SANOFI"
@@ -166,7 +166,7 @@ def get_short_financials(request, symbol):
     }
     return JsonResponse({"companies": data, "success": True})
     
-@login_required
+
 def get_financials(request, symbol):
     # get request financials
     if not symbol:
@@ -254,7 +254,7 @@ def get_news(request):
         newsList.append(i.data)
     return JsonResponse({news: newsList}, safe=False)
    
-@login_required 
+
 def show_data(request):
     code = request.GET.getlist("code")[0]
     codes = code.split(",")
