@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "portfolio.apps.PortfolioConfig",
     "financials.apps.FinancialsConfig",
     "newsdata.apps.NewsdataConfig",
+    "chatbot.apps.ChatbotConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'corsheaders',

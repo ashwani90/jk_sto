@@ -1,5 +1,9 @@
 {% extends 'layout/base.html' %}
               
+{% block custom_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+   {% endblock %} 
 {% block content %}
 
               <!-- Begin Page Content -->
@@ -94,4 +98,34 @@
             </div>
         </div>
     </div>
+
+    <div class="chat-box">
+        <div class="chat-box-header">
+            <h3>Message Us</h3>
+            <p><i class="fa fa-times"></i></p>
+        </div>
+        <div style="height: 46vh;">
+        <div class="chat-box-body" id="chat-box-content">
+            
+        </div>
+    </div>
+        <div class="chat-box-footer">
+            {% comment %} <button id="addExtra"><i class="fa fa-plus"></i></button> {% endcomment %}
+            <input class="ml-2" placeholder="Enter Your Message" id="message-input" type="text" />
+            <i class="send far fa-paper-plane" id="send-message"></i>
+        </div>
+    </div>
+    <div class="chat-button"><span></span></div>
+    <div class="modal">
+        <div class="modal-content">
+            <span class="modal-close-button">&times;</span>
+            <h1>Add What you want here.</h1>
+        </div>
+    </div>
+        
+    </div>
     {% endblock %}
+
+    {% block custom_js %}
+    <script src="{% static 'js/chat.js' %}"></script>
+       {% endblock %}
