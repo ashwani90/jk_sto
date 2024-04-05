@@ -108,7 +108,8 @@ DATABASES = {
     }
 }
 
-ASGI_APPLICATION = 'jkinda_stocks.asgi.application'
+
+# ASGI_APPLICATION = 'jkinda_stocks.asgi.application'
 
 # CHANNEL_LAYERS = {
 #     "default": {

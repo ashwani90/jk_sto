@@ -221,12 +221,12 @@ function chartDataFunction(id, companyValue=false, range=false, type=false, isSi
       if (window.type) {
         type = window.type;
       }
-      let data_url = "http://0.0.0.0:8000/show_data?code=500570&range="+range;
+      let data_url = "http://localhost:8000/show_data?code=500570&range="+range;
         if (companyValue) {
-            data_url = "http://0.0.0.0:8000/show_data?code="+companyValue+"&range="+range;
+            data_url = "http://localhost:8000/show_data?code="+companyValue+"&range="+range;
         }
         if (!isSingle) {
-          data_url = "http://0.0.0.0:8000/show_data?code="+companyValue+"&is_single=0&range="+range;
+          data_url = "http://localhost:8000/show_data?code="+companyValue+"&is_single=0&range="+range;
         }
         $.ajax({url: data_url, success: function(result){
           if (!isSingle) {

@@ -14,10 +14,12 @@ from newsdata.models import NewsData
 from .helpers import get_date_range_from_range
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 
 def get_dashboards(request):
     user_id = request.user.id
-    user = get_user_model().objects.get(id=user_id)
+    print(user_id)
+    user = User.objects.get(id=user_id)
     dashboards = Dashboard.objects.filter(user=user)[:20]
     data = []
     for i in dashboards:

@@ -82,6 +82,8 @@ def company_list(request):
 
 @login_required
 def company(request):
+    user_id = request.user.id
+    user = User.objects.get(id=user_id)
     symbol="SANOFI"
     symbol = request.GET.get("symbol")
     company_data = Financial.objects.filter(symbol=symbol, type=1).order_by('-id')
@@ -119,7 +121,8 @@ def company(request):
         "debt_equity": debt_equity,
         "symbol": symbol,
         "sector": "IT",
-        "all_operators": operators_ar
+        "all_operators": operators_ar,
+        "user": user
     }
     print(data)
     return render(request, 'pages/company.html', data)
