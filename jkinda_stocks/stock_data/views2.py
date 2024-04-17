@@ -14,8 +14,10 @@ from financials.models import Financial
 from newsdata.models import NewsData
 from .helpers import get_date_range_from_range
 from django.contrib.auth.decorators import login_required
-from account.models import User
+from account.models import User, Profile
 from .query import create_query
+import requests
+
 
 # Create your views here.
 @login_required
@@ -44,8 +46,26 @@ def index(request):
         pass
     user_id = request.user.id
     user = User.objects.get(id=user_id)
+    # get user
+    chat_data = {}
+    profile = Profile.objects.get(user=user)
+    response = requests.get('http://localhost:8000/api/v1/get_user?username='+user.username+'&token='+profile.token)
+    if response:
+        response = json.loads(response.content)
+        chat_user_id = response.get('user_id')
+        room_id = response.get('room_id')
+        chat_data = {
+            'chat_user_id': chat_user_id,
+            'room_id': room_id
+        }
     if not dashboard_id:
-        dashboard = Dashboard.objects.filter(user=user).order_by('-default')[0]
+        try:
+            dashboard = Dashboard.objects.filter(user=user).order_by('-default')[0]
+        except Exception as e:
+            print(e)
+            dashboard = []
+            data = {"chart_data": [], "dashboards": [], "dash": [], 'chat_data': chat_data}
+            return render(request, 'index.html', data)
     else:
         dashboard = Dashboard.objects.get(id=int(dashboard_id))
     charts = Chart.objects.filter(dashboard_id=dashboard, deleted=False)
@@ -71,7 +91,7 @@ def index(request):
             "name": chart.name,
             "title": chart.title
         })
-    data = {"chart_data": chart_data, "dashboards": all_dash, "dash": current_dashboard}
+    data = {"chart_data": chart_data, "dashboards": all_dash, "dash": current_dashboard, 'chat_data': chat_data}
     return render(request, 'index.html', data)
 
 def company_list(request):
@@ -133,6 +153,16 @@ def get_companies(request, search):
     
     return JsonResponse({"companies": data, "success": True})
 
+@login_required
+def get_messages(request):
+    user_id = request.user.id
+    user = User.objects.get(id=user_id)
+    profile = Profile.objects.get(user=user)
+    response = requests.get('http://localhost:8000/api/v1/get_messages?username='+user.username+'&token='+profile.token)
+    if response:
+        response = json.loads(response.content)
+        messages = response.get('messages')
+    return JsonResponse({"messages": messages, "success": True})
 
 def get_short_financials(request, symbol):
     if not symbol:

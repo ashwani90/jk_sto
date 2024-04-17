@@ -95,7 +95,7 @@ DATABASES = {
         'NAME': 'jkinda_stocks',
         'USER': 'ashwani_ocr',
         'PASSWORD': 'ashwani',
-        'HOST': 'host.docker.internal',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }

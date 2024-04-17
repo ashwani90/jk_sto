@@ -18,6 +18,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import Role, Profile, Organization
 from django.contrib.auth import logout
+import requests
+import json
 
 def signup(request):
     if request.method == 'POST':
@@ -30,6 +32,16 @@ def signup(request):
             organization = Organization.objects.get(id=1)
             role = Role.objects.get(id=3)
             Profile.objects.create(user=user,organization=organization, role=role)
+            # Create the user in chat model
+            # call the external api here
+            post_data = {'username': username}
+            response = requests.post('http://localhost:8000/api/v1/create_user', data=post_data)
+            if response:
+                response = json.loads(response.content)
+                token = response.get('token')
+                user.token = token
+                user.save()
+
             login(request, user)
             return redirect('home')
     else:

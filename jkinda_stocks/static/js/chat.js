@@ -47,20 +47,51 @@ $("#send-message").click(() => {
 })
 
 $(document).ready(function() {
+    let chat_room_id = document.getElementById("chat_room_id").value;
+    let chat_user_id = document.getElementById("chat_user_id").value;
+    let data_url = window.main_url+"api/get_messages/";
+        $.get({url: data_url, success: (result) => {
+            
+            if (result.success) { 
+                console.log(result.messages);
+                let messages = result.messages;
+                for (let i=0;i<messages.length;i++) {
+                    let sent = '';
+                    let msgt = messages[i].message;
+                    if (messages[i].user_id == chat_user_id) {
+                        sent = `<div class="chat-box-body-send">
+                                <p>${msgt}</p>
+                                <span>12:00</span>
+                            </div>`;
+                            
+                    } else {
+                        sent = `<div class="chat-box-body-receive">
+                            <p>${msgt}</p>
+                            <span>12:00</span>
+                        </div>`;
+                    }
+                    $("#chat-box-content").append(sent);
+                }
+            } 
+        }})
+    
     let socket = new WebSocket(
         `ws://127.0.0.1:8000/ws/users/3/chat/`
       );
       
       $("#send-message").click(() => {
         // let message = $("#message-input").val();
+        let msgt = document.getElementById("message-input").value;
+        
         const msg = {
-            type: "message",
-            text: document.getElementById("message-input").value,
-            id: clientID,
+            action: "message",
+            message: document.getElementById("message-input").value,
+            user: chat_user_id,
             date: Date.now(),
+            roomId: chat_room_id
           };
         let sent = `<div class="chat-box-body-send">
-                    <p>${message}</p>
+                    <p>${msgt}</p>
                     <span>12:00</span>
                 </div>`;
                 $("#chat-box-content").append(sent);
@@ -82,14 +113,24 @@ $(document).ready(function() {
 
       socket.onopen = (event) => {
         const msg = {
-            type: "message",
-            text: document.getElementById("message-input").value,
-            id: clientID,
+            action: "message",
+            message: document.getElementById("message-input").value,
+            user: chat_user_id,
             date: Date.now(),
+            roomId: chat_room_id
           };
           socket.send(JSON.stringify(msg));
       };
       socket.onmessage = (event) => {
-        console.log(event.data);
+        const data = JSON.parse(event.data);
+        if (data.message && data.user != chat_user_id) {
+            let msgt = data.message;
+            let sent = `<div class="chat-box-body-receive">
+                    <p>${msgt}</p>
+                    <span>12:00</span>
+                </div>`;
+            $("#chat-box-content").append(sent);
+        }
+        
       };
 })
