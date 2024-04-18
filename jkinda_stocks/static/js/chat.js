@@ -47,6 +47,18 @@ $("#send-message").click(() => {
 })
 
 $(document).ready(function() {
+
+    function scrollBot() {
+        let scrollableDiv = 
+            document.getElementById('chat-box-content');
+        scrollToBottom();
+        // Function to scroll to the bottom of the div
+        function scrollToBottom() {
+            scrollableDiv.scrollTop = scrollableDiv
+                .scrollHeight;
+        }
+    }
+
     let chat_room_id = document.getElementById("chat_room_id").value;
     let chat_user_id = document.getElementById("chat_user_id").value;
     let data_url = window.main_url+"api/get_messages/";
@@ -55,7 +67,7 @@ $(document).ready(function() {
             if (result.success) { 
                 console.log(result.messages);
                 let messages = result.messages;
-                for (let i=0;i<messages.length;i++) {
+                for (let i=messages.length-1;i>=0;i--) {
                     let sent = '';
                     let msgt = messages[i].message;
                     if (messages[i].user_id == chat_user_id) {
@@ -71,6 +83,7 @@ $(document).ready(function() {
                         </div>`;
                     }
                     $("#chat-box-content").append(sent);
+                    scrollBot();
                 }
             } 
         }})
@@ -95,6 +108,7 @@ $(document).ready(function() {
                     <span>12:00</span>
                 </div>`;
                 $("#chat-box-content").append(sent);
+                scrollBot();
         $("#message-input").val("");
         // add message to the list
         // let data_url = window.main_url+"chat/send/";
@@ -123,6 +137,9 @@ $(document).ready(function() {
       };
       socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
+        console.log(data);
+        console.log(data.message);
+
         if (data.message && data.user != chat_user_id) {
             let msgt = data.message;
             let sent = `<div class="chat-box-body-receive">
@@ -130,6 +147,7 @@ $(document).ready(function() {
                     <span>12:00</span>
                 </div>`;
             $("#chat-box-content").append(sent);
+            scrollBot();
         }
         
       };

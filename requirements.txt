@@ -11,10 +11,5 @@ nsepython
 xmltodict
 arrow
 # chatterbot
-openai==0.28
-channels==3.0.4
-django-shortuuidfield==0.1.3
-djangorestframework==3.12.4
-djangorestframework-simplejwt==4.8.0
-Pillow==8.3.2
+
 django-shortuuidfield
