@@ -56,7 +56,8 @@ def index(request):
         room_id = response.get('room_id')
         chat_data = {
             'chat_user_id': chat_user_id,
-            'room_id': room_id
+            'room_id': room_id,
+            'unique_token': profile.chat_token
         }
     if not dashboard_id:
         try:
