@@ -25,3 +25,5 @@ class Profile(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, default=None)
     role = models.ForeignKey(Role, on_delete=models.CASCADE, default=None)
     delHistoryDate = models.DateTimeField(blank=True, null=True, default=None)
+    token = models.CharField(default=None, blank=True, null=True, max_length=255)
+    chat_token = models.CharField(default=None, blank=True, null=True)

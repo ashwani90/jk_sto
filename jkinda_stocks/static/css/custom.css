@@ -86,3 +86,12 @@
     background-color: white;
     color: orange;
 }
+
+.chat-over-container {
+    border: 1px solid grey;
+    
+}
+.chat-container {
+    width: 100%;
+    height: 60vh;
+}

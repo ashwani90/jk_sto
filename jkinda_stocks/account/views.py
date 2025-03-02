@@ -18,6 +18,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import Role, Profile, Organization
 from django.contrib.auth import logout
+import requests
+import json
+import hashlib
 
 def signup(request):
     if request.method == 'POST':
@@ -30,6 +33,16 @@ def signup(request):
             organization = Organization.objects.get(id=1)
             role = Role.objects.get(id=3)
             Profile.objects.create(user=user,organization=organization, role=role)
+            # Create the user in chat model
+            # call the external api here
+            post_data = {'username': username}
+            response = requests.post('http://localhost:8000/api/v1/create_user', data=post_data)
+            if response:
+                response = json.loads(response.content)
+                token = response.get('token')
+                user.token = token
+                user.save()
+
             login(request, user)
             return redirect('home')
     else:
@@ -45,6 +58,7 @@ def loginMethod(request):
             # Todo:: Please do this with the username instead of mail
             user = authenticate(username="ashwani", password=raw_password)
             login(request, user)
+            user = User.objects.filter(id=user.id, is_active=True).select_related("profile", "profile__role", "profile__organization")
             return redirect('home')
     else:
         form = LoginForm()
@@ -53,6 +67,22 @@ def loginMethod(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+def api_get_users(request):
+    users = User.objects.filter(is_active=True).select_related("profile", "profile__role", "profile__organization")
+    all_users = []
+    for user in users:
+        all_users.append(
+            {
+                "name": user.first_name+" "+user.last_name,
+                "email": user.email,
+                "id": user.id,
+                "enabled": user.is_active,
+                "unique_token": user.profile.chat_token
+            }
+        )
+    
+    return JsonResponse({"success": True, "users": all_users})
 
 @login_required
 def get_users(request):
@@ -67,6 +97,7 @@ def get_users(request):
                 "email": user.email,
                 "id": user.id,
                 "enabled": user.is_active,
+                "unique_token": user.profile.chat_token,
                 "role": user.profile.role.name,
                 "organization_id": user.profile.organization.id
             }

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "chat.apps.ChatConfig",
     "financials.apps.FinancialsConfig",
     "newsdata.apps.NewsdataConfig",
+    "chatbot.apps.ChatbotConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'corsheaders',
@@ -103,7 +104,7 @@ DATABASES = {
         'NAME': 'jkinda_stocks',
         'USER': 'ashwani_ocr',
         'PASSWORD': 'ashwani',
-        'HOST': 'host.docker.internal',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }

@@ -28,4 +28,5 @@ urlpatterns = [
     path("api/get_dashboards/", apiViews.get_dashboards, name="get_dashboards"),
     path("api/add_chart_to_dashboard/", apiViews.add_chart_to_dashboard, name="add_chart_to_dashboard"),
     path("api/get_operators/", apiViews.get_operators, name="get_operators"),
+    path("api/get_messages/", views2.get_messages, name="get_messages"),
 ]

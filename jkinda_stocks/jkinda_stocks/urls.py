@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('stock_data.urls')),
     path('', include('account.urls')),
+    path('chat/', include('chatbot.urls')),
     path('portfolio/', include('portfolio.urls')),
     path('', include('chat.urls')),
 ]
