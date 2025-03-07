@@ -101,6 +101,11 @@ def company_list(request):
     data = {"result": result}
     return render(request, 'pages/company-list.html', data)
 
+def company_stats(request):
+    result = []
+    data = {"result": result}
+    return render(request, 'pages/company-stats.html', data)
+
 @login_required
 def company(request):
     user_id = request.user.id
