@@ -1,8 +1,16 @@
+## Install the project
+
+```
+python -m venv .env
+pip install -r requirements.txt
+
+```
+
 ### To Run The project
 
 ```
 source .env/bin/activate
-python manage.py runserver
+python manage.pyn runserver
 ```
 
 ### Commands
